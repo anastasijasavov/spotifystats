@@ -1,0 +1,52 @@
+{
+  "users": [
+    {
+      "id": "anastasija.savov2000",
+      "name": "Anastasija Savov"
+    }
+  ],
+  "scrobbles": [
+    {
+      "track": {
+        "id": "5p56JT5F9a1z9pwXnqTg7d",
+        "name": "Worldwide Steppers",
+        "artist": "Kendrick Lamar",
+        "duration": 203367,
+        "album": "https://i.scdn.co/image/ab67616d00001e029b7f58c7a1ddc293b09d5ea4",
+        "scrobble_id": 1652741115946,
+        "minutes": 3,
+        "seconds": 23
+      },
+      "userID": "anastasija.savov2000",
+      "id": 1
+    },
+    {
+    "track": {
+      "id": "5p56JT5F9a1z9pwXnqTg7d",
+      "name": "Worldwide Steppers",
+      "artist": "Kendrick Lamar",
+      "duration": 203367,
+      "album": "https://i.scdn.co/image/ab67616d00001e029b7f58c7a1ddc293b09d5ea4",
+      "scrobble_id": 1652741115666,
+      "minutes": 3,
+      "seconds": 23
+    },
+    "userID": "anastasija.savov2000",
+    "id": 2
+  },
+  {
+    "track": {
+      "id": "5p56JT5F9a1z9pwXnqTg7d",
+      "name": "Worldwide Steppers",
+      "artist": "Kendrick Lamar",
+      "duration": 203367,
+      "album": "https://i.scdn.co/image/ab67616d00001e029b7f58c7a1ddc293b09d5ea4",
+      "scrobble_id": 1652741115999,
+      "minutes": 3,
+      "seconds": 23
+    },
+    "userID": "anastasija.savov2000",
+    "id": 3
+  }
+  ]
+}
