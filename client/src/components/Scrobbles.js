@@ -38,7 +38,11 @@ export function Scrobbles() {
           <GridActionsCellItem
             icon={<DeleteOutlineIcon />}
             label="Delete"
-            onClick={() => removeScrobble(id)}
+            onClick={() => {
+              removeScrobble(id);
+              setRows(rows.filter(row => row.id !== id))
+
+            }}
             color="inherit"
           />,
         ];

@@ -21,32 +21,186 @@
       "id": 1
     },
     {
-    "track": {
-      "id": "5p56JT5F9a1z9pwXnqTg7d",
-      "name": "Worldwide Steppers",
-      "artist": "Kendrick Lamar",
-      "duration": 203367,
-      "album": "https://i.scdn.co/image/ab67616d00001e029b7f58c7a1ddc293b09d5ea4",
-      "scrobble_id": 1652741115666,
-      "minutes": 3,
-      "seconds": 23
+      "track": {
+        "id": "4ssI3CWZrlBJYBjK8jGO5f",
+        "name": "Angelz [Feat. Karriem Riggins]",
+        "artist": "Denzel Curry",
+        "duration": 231533,
+        "album": "https://i.scdn.co/image/ab67616d00001e025b924aa009b61b6b9d831eec",
+        "scrobble_id": 1652779778687,
+        "minutes": 3,
+        "seconds": 52
+      },
+      "userID": "anastasija.savov2000",
+      "id": 4
     },
-    "userID": "anastasija.savov2000",
-    "id": 2
-  },
-  {
-    "track": {
-      "id": "5p56JT5F9a1z9pwXnqTg7d",
-      "name": "Worldwide Steppers",
-      "artist": "Kendrick Lamar",
-      "duration": 203367,
-      "album": "https://i.scdn.co/image/ab67616d00001e029b7f58c7a1ddc293b09d5ea4",
-      "scrobble_id": 1652741115999,
-      "minutes": 3,
-      "seconds": 23
+    {
+      "track": {
+        "id": "5RJBFEnpXIAgpInGazKb1F",
+        "name": "The Smell Of Death",
+        "artist": "Denzel Curry",
+        "duration": 80826,
+        "album": "https://i.scdn.co/image/ab67616d00001e025b924aa009b61b6b9d831eec",
+        "scrobble_id": 1652780010458,
+        "minutes": 1,
+        "seconds": 21
+      },
+      "userID": "anastasija.savov2000",
+      "id": 5
     },
-    "userID": "anastasija.savov2000",
-    "id": 3
-  }
+    {
+      "track": {
+        "id": "7jn0ATNNqtWgDk8wLYa3gw",
+        "name": "Zatoichi [Feat. slowthai]",
+        "artist": "Denzel Curry",
+        "duration": 210426,
+        "album": "https://i.scdn.co/image/ab67616d00001e025b924aa009b61b6b9d831eec",
+        "scrobble_id": 1652780218364,
+        "minutes": 3,
+        "seconds": 30
+      },
+      "userID": "anastasija.savov2000",
+      "id": 6
+    },
+    {
+      "track": {
+        "id": "3xYvDtt9IxWn6xJNapCv9u",
+        "name": "The Ills",
+        "artist": "Denzel Curry",
+        "duration": 202853,
+        "album": "https://i.scdn.co/image/ab67616d00001e025b924aa009b61b6b9d831eec",
+        "scrobble_id": 1652780421372,
+        "minutes": 3,
+        "seconds": 23
+      },
+      "userID": "anastasija.savov2000",
+      "id": 7
+    },
+    {
+      "track": {
+        "id": "0hG9tIK4ce1gn7yO2KnK7J",
+        "name": "Bust A Brick Nick",
+        "artist": "Benny The Butcher",
+        "duration": 224146,
+        "album": "https://i.scdn.co/image/ab67616d00001e026f7e02a599bf17973444fdee",
+        "scrobble_id": 1652780864061,
+        "minutes": 3,
+        "seconds": 44
+      },
+      "userID": "anastasija.savov2000",
+      "id": 8
+    },
+    {
+      "track": {
+        "id": "4Vk4Yf7pDmB1dxLFSTjBUH",
+        "name": "101 FM",
+        "artist": "Little Simz",
+        "duration": 191392,
+        "album": "https://i.scdn.co/image/ab67616d00001e021c54fc953531d5da04232deb",
+        "scrobble_id": 1652781088350,
+        "minutes": 3,
+        "seconds": 11
+      },
+      "userID": "anastasija.savov2000",
+      "id": 9
+    },
+    {
+      "track": {
+        "id": "60ynsPSSKe6O3sfwRnIBRf",
+        "name": "Streets",
+        "artist": "Doja Cat",
+        "duration": 226986,
+        "album": "https://i.scdn.co/image/ab67616d00001e0282b243023b937fd579a35533",
+        "scrobble_id": 1652781284659,
+        "minutes": 3,
+        "seconds": 47
+      },
+      "userID": "anastasija.savov2000",
+      "id": 10
+    },
+    {
+      "track": {
+        "id": "3DarAbFujv6eYNliUTyqtz",
+        "name": "Kiss Me More (feat. SZA)",
+        "artist": "Doja Cat",
+        "duration": 208666,
+        "album": "https://i.scdn.co/image/ab67616d00001e024df3245f26298a1579ecc321",
+        "scrobble_id": 1652781512147,
+        "minutes": 3,
+        "seconds": 29
+      },
+      "userID": "anastasija.savov2000",
+      "id": 11
+    },
+    {
+      "track": {
+        "id": "3kEA66ZM9mCxwhynOxgsLh",
+        "name": "Music and Lights",
+        "artist": "Imagination",
+        "duration": 322933,
+        "album": "https://i.scdn.co/image/ab67616d00001e0223e3de02327a72bcf7a1c5d3",
+        "scrobble_id": 1652782085155,
+        "minutes": 5,
+        "seconds": 23
+      },
+      "userID": "anastasija.savov2000",
+      "id": 12
+    },
+    {
+      "track": {
+        "id": "3RkNXZvOSMMElmmXztDc94",
+        "name": "F*****g Fans",
+        "artist": "Drake",
+        "duration": 245131,
+        "album": "https://i.scdn.co/image/ab67616d00001e02cd945b4e3de57edd28481a3f",
+        "scrobble_id": 1652783200201,
+        "minutes": 4,
+        "seconds": 5
+      },
+      "userID": "anastasija.savov2000",
+      "id": 13
+    },
+    {
+      "track": {
+        "id": "2HSmyk2qMN8WQjuGhaQgCk",
+        "name": "Champagne Poetry",
+        "artist": "Drake",
+        "duration": 336511,
+        "album": "https://i.scdn.co/image/ab67616d00001e02cd945b4e3de57edd28481a3f",
+        "scrobble_id": 1652783445370,
+        "minutes": 5,
+        "seconds": 37
+      },
+      "userID": "anastasija.savov2000",
+      "id": 14
+    },
+    {
+      "track": {
+        "id": "0RbW8kWozrVSIGb4V13o0o",
+        "name": "Hurricane",
+        "artist": "Kanye West",
+        "duration": 243187,
+        "album": "https://i.scdn.co/image/ab67616d00001e026ba1cffc9b2c5469503430b3",
+        "scrobble_id": 1652784644478,
+        "minutes": 4,
+        "seconds": 3
+      },
+      "userID": "anastasija.savov2000",
+      "id": 15
+    },
+    {
+      "track": {
+        "id": "3gWzTnziivUYzqXtnvgN8q",
+        "name": "Jonah",
+        "artist": "Kanye West",
+        "duration": 195170,
+        "album": "https://i.scdn.co/image/ab67616d00001e026ba1cffc9b2c5469503430b3",
+        "scrobble_id": 1652784887879,
+        "minutes": 3,
+        "seconds": 15
+      },
+      "userID": "anastasija.savov2000",
+      "id": 16
+    }
   ]
 }

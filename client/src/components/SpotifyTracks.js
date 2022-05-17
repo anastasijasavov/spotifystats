@@ -1,77 +1,86 @@
 import { useState, useEffect } from "react";
 import { Track } from "../models/Track";
 import { DataGrid } from "@mui/x-data-grid";
-
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import {
+  GridActionsCellItem,
+} from "@mui/x-data-grid-pro";
+import { getSavedTracks } from "../utils/spotifyService";
 // const spotifyApi = new SpotifyWebApi({
 //   clientId: "0cc65edbfc7649b087b605c605e9aade",
 // });
 
-const columns = [
-  { field: "col1", headerName: "Name", width: 150 },
-  { field: "col2", headerName: "Artist", width: 150 },
-];
 export default function SpotifyTracks({ props }) {
+
   // const accessToken = useAuth(code);
-  const [tracks, setTracks] = useState([]);
   const [rows, setRows] = useState([]);
   //let rows = [];
-
   //check accessToken
   useEffect(() => {
     if (!props.accessToken) return;
     props.spotifyApi.setAccessToken(props.accessToken);
   }, [props.accessToken, props.spotifyApi]);
 
+  const columns = [
+    { field: "col1", headerName: "Name", width: 150 },
+    { field: "col2", headerName: "Artist", width: 150 },
+    {
+      field: "actions",
+      type: "actions",
+      headerName: "Actions",
+      width: 100,
+      cellClassName: "actions",
+      getActions: ({ id }) => {
+        return [
+          <GridActionsCellItem
+            icon={<FavoriteIcon />}
+            label="Unsave"
+            onClick={() => {
+              new Track(id).unsaveFromSpotify(props.spotifyApi);
+              //setRows(rows.filter(item => item.id !== id))
+
+              const tracks = getSavedTracks(1, props.spotifyApi);
+              //var promise = Promise.resolve(tracks);
+              //ne radi, pokaze stare saved pesme
+              tracks.then(items => {
+                setRows(items.map((item) => {
+                  return {
+                    id: item.track.id,
+                    col1: item.track.name,
+                    col2: item.track.artists[0].name,
+                  };
+                }));
+              })
+
+            }}
+            color="inherit"
+          />,
+        ];
+      },
+    },
+  ];
+
   //get tracks from spotify
   useEffect(() => {
     if (!props.accessToken) return;
-
-    props.spotifyApi
-      .getMySavedTracks({
-        limit: 5,
-        offset: 0,
-      })
-      .then(
-        function (data) {
-          console.log("saved from spotify:", data.body);
-          //console.log("Done!");
-
-          setTracks(
-            data.body.items.map(
-              (item) =>
-                new Track(
-                  item.track.id,
-                  item.track.name,
-                  item.track.artists[0].name,
-                  item.track.duration_ms,
-                  null,
-                  item.track.album.name
-                )
-            )
-          );
-          setRows(
-            data.body.items.map((item) => {
-              return {
-                id: item.track.id,
-                col1: item.track.name,
-                col2: item.track.artists[0].name,
-              };
-            })
-          );
-        },
-        function (err) {
-          console.log(
-            "Something went wrong with fetching saved songs from spotify!",
-            err
-          );
-        }
-      );
+    const tracks = getSavedTracks(0, props.spotifyApi);
+    console.log("saved from spotify", tracks);
+    tracks.then(items => {
+      setRows(items.map((item) => {
+        return {
+          id: item.track.id,
+          col1: item.track.name,
+          col2: item.track.artists[0].name,
+        };
+      }));
+    })
 
     return () => {
-      setTracks([]);
+      // setTracks([]);
       setRows([]);
     };
   }, [props.accessToken, props.spotifyApi]);
+
 
   // console.log(rows);
   return (
