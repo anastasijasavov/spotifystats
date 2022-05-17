@@ -59,10 +59,7 @@ export default function CurrentTrack({ props }) {
           ) {
             var today = new Date();
             var today_ms = today.getTime();
-            console.log(
-              "song current time : played at ratio = ",
-              (today_ms - songPlayedAt) / data.body.progress_ms
-            );
+
 
             console.log("the song has changed");
             const scrobble = new Track(
@@ -77,16 +74,15 @@ export default function CurrentTrack({ props }) {
             console.log("api timestamp: ", data.body.timestamp);
             console.log(" track progress:", data.body.progress_ms);
             console.log("api track duration:", data.body.item.duration_ms);
-            console.log("data from interval hook:", data.body);
 
             setTrack(scrobble);
             let progressRatio =
               (today_ms - songPlayedAt) / data.body.progress_ms;
             if (
               progressRatio > 0.6 &&
-              progressRatio <= 1 &&
               data.body.progress_ms / data.body.item.duration_ms > 0.5
             ) {
+              console.log("song is being saved");
               saveScrobble(scrobble, window.localStorage.getItem("userID"));
             }
             spotifyApi.containsMySavedTracks([data.body.item.id]).then(
@@ -124,7 +120,7 @@ export default function CurrentTrack({ props }) {
       <h3>Currently listening: {track.name}</h3>
       <h5>by {track.artist}</h5>
       <h6>
-        {track.minutes}:{track.seconds}
+        {track.minutes ? track.minutes : "-"}:{track.seconds ? track.seconds : "-"}
       </h6>
       <div>
         {track.id !== undefined ? (

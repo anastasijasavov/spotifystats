@@ -3,18 +3,9 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useState, useEffect } from "react";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import {
-  GridRowsProp,
-  GridRowModesModel,
-  GridRowModes,
-  DataGridPro,
-  GridColumns,
-  GridRowParams,
-  MuiEvent,
-  GridToolbarContainer,
+
   GridActionsCellItem,
-  GridEventListener,
-  GridRowId,
-  GridRowModel,
+
 } from "@mui/x-data-grid-pro";
 
 const userID = localStorage.getItem("userID");
@@ -41,7 +32,6 @@ export function Scrobbles() {
             onClick={() => {
               removeScrobble(id);
               setRows(rows.filter(row => row.id !== id))
-
             }}
             color="inherit"
           />,
@@ -63,7 +53,7 @@ export function Scrobbles() {
         tracks
           .map((track) => {
             timeAgo = (today - track.track.scrobble_id) / 60000;
-            console.table(timeAgo, today, track.track.scrobble_id);
+            // console.table(timeAgo, today, track.track.scrobble_id);
             timeUnit = "min";
             if (timeAgo > 60) {
               timeAgo /= 60;
@@ -81,7 +71,8 @@ export function Scrobbles() {
                 }
               }
             }
-            console.log(timeAgo + timeUnit);
+            //console.log(timeAgo + timeUnit);
+            // console.log("rows", rows);
             return {
               id: track.id,
               col1: track.track.name,
