@@ -91,6 +91,9 @@ dist
 # vuepress build output
 .vuepress/dist
 
+#data for fake json server
+.db.json/
+
 # Serverless directories
 .serverless/
 
