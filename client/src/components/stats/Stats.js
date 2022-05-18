@@ -1,8 +1,10 @@
 import { getMyScrobbles } from "../../utils/http-requests"
 import { DataGrid } from "@mui/x-data-grid";
 import { useState, useEffect, useMemo } from "react"
+import SpotifyTracks from "../SpotifyTracks/SpotifyTracks";
+import "./stats.css";
 
-export function Stats() {
+export function Stats({ spotifyApi }) {
 
     const userID = window.localStorage.getItem("userID");
     const data = getMyScrobbles(userID);
@@ -41,14 +43,19 @@ export function Stats() {
 
     // console.log("top 10 scrobbles all time: ", groups);
     const columns = [
-        { field: "id", headerName: "id" },
-        { field: "name", headerName: "Name", width: "200px" },
-        { field: "artist", headerName: "Artist", width: "200px" },
-        { field: "count", headerName: "Frequency", width: "100px" }
+        { field: "name", headerName: "Name", width: 200 },
+        { field: "artist", headerName: "Artist", width: 200 },
+        { field: "count", headerName: "Frequency", width: 100 }
     ]
     return (
         <>
-            <div style={{ height: "550px" }}><DataGrid rows={rows} columns={columns} /></div>
+            <SpotifyTracks spotifyApi={spotifyApi} />
+
+
+            <div className="grid">
+                <h3>Top tracks: </h3>
+                <DataGrid rows={rows} columns={columns} />
+            </div>
         </>
     );
 }
