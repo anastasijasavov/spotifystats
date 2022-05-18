@@ -91,30 +91,7 @@ export default function SpotifyTracks({ spotifyApi }) {
       <div style={{ height: "400px", width: "50%", marginLeft: "20px" }}>
         <DataGrid rows={rows} columns={columns} />
       </div>
-      {/* <ul>
-        {tracks
-          ? tracks.map((track) => {
-              return (
-                <li key={track.id}>
-                  <div className="track">
-                    <h2>
-                      {track.name} by {track.artist}
-                    </h2>
-                    <h2>{track.album}</h2>
-                    <h5>
-                      {track.minutes}:{track.seconds}
-                    </h5>
-                    <button
-                      onClick={() => track.unsaveFromSpotify(props.spotifyApi)}
-                    >
-                      unsave
-                    </button>
-                  </div>
-                </li>
-              );
-            })
-          : null}
-      </ul> */}
+
     </div>
   );
 }

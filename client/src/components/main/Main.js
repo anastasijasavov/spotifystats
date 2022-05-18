@@ -3,9 +3,8 @@ import SpotifyTracks from "../SpotifyTracks";
 import SpotifyWebApi from "spotify-web-api-node";
 import { useEffect, useMemo } from "react";
 import { saveUser } from "../../utils/http-requests";
-
-
 export default function Main() {
+
   var spotifyApi = useMemo(() => new SpotifyWebApi({
     clientId: "0cc65edbfc7649b087b605c605e9aade"
   }), [])

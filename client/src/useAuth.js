@@ -44,5 +44,6 @@ export default function useAuth(code) {
   }, [refreshToken, expiresIn]);
 
   window.localStorage.setItem("accessToken", accessToken);
+  window.localStorage.setItem("refreshToken", refreshToken);
   return accessToken;
 }

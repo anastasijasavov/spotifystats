@@ -1,13 +1,14 @@
 import { getMyScrobbles } from "../../utils/http-requests"
 import { DataGrid } from "@mui/x-data-grid";
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 
 export function Stats() {
 
     const userID = window.localStorage.getItem("userID");
     const data = getMyScrobbles(userID);
     const [rows, setRows] = useState([])
-    var groups = [];
+
+    var groups = useMemo(() => groups, []);
     data.then(tracks => {
 
         for (let index = 0; index < tracks.length; index++) {
@@ -35,11 +36,10 @@ export function Stats() {
                 album: item.album
             }
         }));
-
         return () => {
             setRows([])
         }
-    }, [])
+    }, [groups])
     // console.log("top 10 scrobbles all time: ", groups);
     const columns = [
         { field: "name", headerName: "Name" },

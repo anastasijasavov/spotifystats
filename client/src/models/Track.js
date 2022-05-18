@@ -1,13 +1,5 @@
-const name = "";
-const artist = "";
-const duration = 0;
-const id = "";
-const coverImage = "";
-const album = "";
-const scrobble_id = 0;
-const isSaved = false;
-const minutes = 0;
-const seconds = 0;
+
+let id, name, artrist, duration, timestamp, album;
 export class Track {
   constructor(id, name, artist, duration, timestamp, album) {
     this.id = id;

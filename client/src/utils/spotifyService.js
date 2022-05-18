@@ -36,8 +36,28 @@ export function getSavedTracks(off, spotifyApi, limit) {
         );
 }
 
-export function trackIsSaved(spotifyApi) {
+export function trackIsSaved(spotifyApi, id) {
+    let isSaved = false;
+    spotifyApi.containsMySavedTracks(id).then(
+        function (data) {
+            // An array is returned, where the first element corresponds to the first track ID in the query
+            var trackIsInYourMusic = data.body[0];
 
+            if (trackIsInYourMusic) {
+                isSaved = true;
+            } else {
+                isSaved = false;
+            }
+        },
+        function (err) {
+            console.log(
+                "Something went wrong with checking whether the current song is saved!",
+                err
+            );
+        }
+
+    );
+    return isSaved;
 }
 
 

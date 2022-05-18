@@ -6,7 +6,7 @@ import { GridActionsCellItem } from "@mui/x-data-grid-pro";
 
 const userID = localStorage.getItem("userID");
 
-export function Scrobbles() {
+export function Scrobbles({ track }) {
   const [rows, setRows] = useState([]);
   // const [timeAgo, setTimeAgo] = useState(0);
   // const [timeUnit, setTimeUnit] = useState("min");
@@ -44,6 +44,9 @@ export function Scrobbles() {
     today = today.getTime();
     let timeAgo = 0;
     let timeUnit = "min";
+
+
+
     scrobbles.then((tracks) => {
       setRows(
         tracks
@@ -78,13 +81,17 @@ export function Scrobbles() {
           })
           .reverse().slice(0, 5)
       );
+
     });
-    console.log("rows", rows);
     return () => {
       // console.log("rows", rows);
       setRows([]);
     };
   }, []);
+  console.log("checking if track exists: ", track);
+  if (track) setRows(rows.unshift(track))
+  console.log("rows", rows);
+
   //console.log("rows", rows);
   return (
     <div style={{ height: "300px", width: "60%" }}>

@@ -4,6 +4,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { saveScrobble } from "../utils/http-requests";
 import { Scrobbles } from "./Scrobbles";
+import { trackIsSaved } from "../utils/spotifyService";
 
 function useInterval(callback, delay) {
   const savedCallback = useRef();
@@ -42,72 +43,56 @@ export default function CurrentTrack({ spotifyApi }) {
 
     spotifyApi.getMyCurrentPlayingTrack().then(
       function (data) {
-        if (
-          data.body !== null &&
-          data.body.progress_ms / data.body.item.duration_ms < 0.3 && data.body.is_playing
-        ) {
+        if (data.body == null || !data.body.is_playing) return;
+
+        if (data.body.progress_ms / data.body.item.duration_ms < 0.3) {
           console.log("namestanje pocetka pesme");
           setSongPlayedAt(data.body.timestamp);
         }
+        const scrobble = new Track(
+          data.body.item.id,
+          data.body.item.name,
+          data.body.item.artists[0].name,
+          data.body.item.duration_ms,
+          data.body.timestamp,
+          data.body.item.album.images[1].url
+        );
+        setTrack(scrobble);
 
-        if (data.body !== null) {
-          if (
-            (data.body.item.id !== track.id &&
-              data.body.progress_ms / data.body.item.duration_ms > 0.5 &&
-              data.body.is_playing) ||
-            (track.id === undefined && data.body.is_playing)
-          ) {
-            var today = new Date();
-            var today_ms = today.getTime();
+        if (
+          (data.body.item.id !== track.id &&
+            data.body.progress_ms / data.body.item.duration_ms > 0.5) ||
+          (track.id === "undefined")
+        ) {
+          var today = new Date();
+          var today_ms = today.getTime();
 
 
-            console.log("the song has changed");
-            const scrobble = new Track(
-              data.body.item.id,
-              data.body.item.name,
-              data.body.item.artists[0].name,
-              data.body.item.duration_ms,
-              data.body.timestamp,
-              data.body.item.album.images[1].url
-            );
-            console.log("prev track timestamp:", track.timestamp);
-            console.log("api timestamp: ", data.body.timestamp);
-            console.log(" track progress:", data.body.progress_ms);
-            console.log("api track duration:", data.body.item.duration_ms);
+          console.log("the song has changed");
 
-            setTrack(scrobble);
-            let progressRatio =
-              (today_ms - songPlayedAt) / data.body.progress_ms;
-            if (
-              progressRatio > 0.6 &&
-              data.body.progress_ms / data.body.item.duration_ms > 0.5
-            ) {
-              console.log("song is being saved");
-              saveScrobble(scrobble, window.localStorage.getItem("userID"));
-            }
-            spotifyApi.containsMySavedTracks([data.body.item.id]).then(
-              function (data) {
-                // An array is returned, where the first element corresponds to the first track ID in the query
-                var trackIsInYourMusic = data.body[0];
+          console.log("prev track timestamp:", track.timestamp);
+          console.log("api timestamp: ", data.body.timestamp);
+          console.log(" track progress:", data.body.progress_ms);
+          console.log("api track duration:", data.body.item.duration_ms);
 
-                if (trackIsInYourMusic) {
-                  setIsSaved(true);
-                } else {
-                  setIsSaved(false);
-                }
-              },
-              function (err) {
-                console.log(
-                  "Something went wrong with checking whether the current song is saved!",
-                  err
-                );
-              }
-            );
+          let progressRatio = (today_ms - songPlayedAt) / data.body.progress_ms;
+          console.log("ratio:", progressRatio);
+
+          if (progressRatio > 0.6) {
+            console.log("song is being saved");
+            saveScrobble(scrobble, window.localStorage.getItem("userID"));
           }
+          if (trackIsSaved(spotifyApi, data.body.item.id)) setIsSaved(true);
+          else setIsSaved(false);
+
         }
+
       },
       function (err) {
-        console.log("Something went wrong!", err);
+        if (err.status === 401)
+          //set refresh token
+          spotifyApi.setAccessToken(window.localStorage.getItem("refreshToken"));
+        console.log("Refreshing the token...", err);
       }
     );
   }, 5000);
@@ -145,7 +130,7 @@ export default function CurrentTrack({ spotifyApi }) {
           )
         ) : null}
       </div>
-      <Scrobbles />
+      <Scrobbles currentTrack={track} />
     </div>
   );
 }
