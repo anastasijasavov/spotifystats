@@ -1,8 +1,10 @@
-import CurrentTrack from "../CurrentTrack";
-import SpotifyTracks from "../SpotifyTracks";
+import CurrentTrack from "../CurrentTrack/CurrentTrack";
+import SpotifyTracks from "../SpotifyTracks/SpotifyTracks";
 import SpotifyWebApi from "spotify-web-api-node";
 import { useEffect, useMemo } from "react";
 import { saveUser } from "../../utils/http-requests";
+import './maintest.css';
+
 export default function Main() {
 
   var spotifyApi = useMemo(() => new SpotifyWebApi({
@@ -29,8 +31,10 @@ export default function Main() {
 
   return (
     <>
-      <CurrentTrack spotifyApi={spotifyApi} />
-      <SpotifyTracks spotifyApi={spotifyApi} />
+      <div className="body">
+        <CurrentTrack spotifyApi={spotifyApi} />
+        <SpotifyTracks spotifyApi={spotifyApi} />
+      </div>
     </>
   );
 }

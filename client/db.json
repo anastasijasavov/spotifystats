@@ -845,6 +845,146 @@
       },
       "userID": "anastasija.savov2000",
       "id": 63
+    },
+    {
+      "track": {
+        "id": "4wVOKKEHUJxHCFFNUWDn0B",
+        "name": "Chicago Freestyle (feat. Giveon)",
+        "artist": "Drake",
+        "duration": 220487,
+        "album": "https://i.scdn.co/image/ab67616d00001e02bba7cfaf7c59ff0898acba1f",
+        "scrobble_id": 1652885983859,
+        "minutes": 3,
+        "seconds": 40
+      },
+      "userID": "anastasija.savov2000",
+      "id": 64
+    },
+    {
+      "track": {
+        "id": "4wVOKKEHUJxHCFFNUWDn0B",
+        "name": "Chicago Freestyle (feat. Giveon)",
+        "artist": "Drake",
+        "duration": 220487,
+        "album": "https://i.scdn.co/image/ab67616d00001e02bba7cfaf7c59ff0898acba1f",
+        "scrobble_id": 1652885983859,
+        "minutes": 3,
+        "seconds": 40
+      },
+      "userID": "anastasija.savov2000",
+      "id": 65
+    },
+    {
+      "track": {
+        "id": "3DK6m7It6Pw857FcQftMds",
+        "name": "Runaway",
+        "artist": "Kanye West",
+        "duration": 547733,
+        "album": "https://i.scdn.co/image/ab67616d00001e02d9194aa18fa4c9362b47464f",
+        "scrobble_id": 1652894255810,
+        "minutes": 9,
+        "seconds": 8
+      },
+      "userID": "anastasija.savov2000",
+      "id": 66
+    },
+    {
+      "track": {
+        "id": "5e5MKPtJuFb8NaeSEyV5gD",
+        "name": "Say You Will",
+        "artist": "Kanye West",
+        "duration": 377600,
+        "album": "https://i.scdn.co/image/ab67616d00001e02346d77e155d854735410ed18",
+        "scrobble_id": 1652895274816,
+        "minutes": 6,
+        "seconds": 18
+      },
+      "userID": "anastasija.savov2000",
+      "id": 67
+    },
+    {
+      "track": {
+        "id": "1kxeWHF9PrCVZHvVskv8lg",
+        "name": "Love Lockdown",
+        "artist": "Kanye West",
+        "duration": 270306,
+        "album": "https://i.scdn.co/image/ab67616d00001e02346d77e155d854735410ed18",
+        "scrobble_id": 1652895865223,
+        "minutes": 4,
+        "seconds": 30
+      },
+      "userID": "anastasija.savov2000",
+      "id": 68
+    },
+    {
+      "track": {
+        "id": "2RRFTLIglxHgAYQzsSLI4Y",
+        "name": "Coldest Winter",
+        "artist": "Kanye West",
+        "duration": 164333,
+        "album": "https://i.scdn.co/image/ab67616d00001e02346d77e155d854735410ed18",
+        "scrobble_id": 1652896375109,
+        "minutes": 2,
+        "seconds": 44
+      },
+      "userID": "anastasija.savov2000",
+      "id": 69
+    },
+    {
+      "track": {
+        "id": "2dJ4rGtsOHOgvTQawsCRtg",
+        "name": "Pray 4 Love (feat. The Weeknd)",
+        "artist": "Travis Scott",
+        "duration": 307000,
+        "album": "https://i.scdn.co/image/ab67616d00001e027433176f037e0ba14190c34f",
+        "scrobble_id": 1652902033182,
+        "minutes": 5,
+        "seconds": 7
+      },
+      "userID": "anastasija.savov2000",
+      "id": 70
+    },
+    {
+      "track": {
+        "id": "2dJ4rGtsOHOgvTQawsCRtg",
+        "name": "Pray 4 Love (feat. The Weeknd)",
+        "artist": "Travis Scott",
+        "duration": 307000,
+        "album": "https://i.scdn.co/image/ab67616d00001e027433176f037e0ba14190c34f",
+        "scrobble_id": 1652902033182,
+        "minutes": 5,
+        "seconds": 7
+      },
+      "userID": "anastasija.savov2000",
+      "id": 71
+    },
+    {
+      "track": {
+        "id": "2dJ4rGtsOHOgvTQawsCRtg",
+        "name": "Pray 4 Love (feat. The Weeknd)",
+        "artist": "Travis Scott",
+        "duration": 307000,
+        "album": "https://i.scdn.co/image/ab67616d00001e027433176f037e0ba14190c34f",
+        "scrobble_id": 1652902069567,
+        "minutes": 5,
+        "seconds": 7
+      },
+      "userID": "anastasija.savov2000",
+      "id": 72
+    },
+    {
+      "track": {
+        "id": "16aNJYinJv9AAetWD5yJen",
+        "name": "FREAK IN YOU",
+        "artist": "PARTYNEXTDOOR",
+        "duration": 272339,
+        "album": "https://i.scdn.co/image/ab67616d00001e024dba72cf4863a442de28f38d",
+        "scrobble_id": 1652907461582,
+        "minutes": 4,
+        "seconds": 32
+      },
+      "userID": "anastasija.savov2000",
+      "id": 73
     }
   ]
 }

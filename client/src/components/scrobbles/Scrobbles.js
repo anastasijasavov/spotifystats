@@ -1,8 +1,10 @@
-import { getMyScrobbles, removeScrobble } from "../utils/http-requests";
+import { getMyScrobbles, removeScrobble } from "../../utils/http-requests";
 import { DataGrid } from "@mui/x-data-grid";
 import { useState, useEffect } from "react";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { GridActionsCellItem } from "@mui/x-data-grid-pro";
+import "./scrobbles.css";
+
 
 const userID = localStorage.getItem("userID");
 
@@ -11,7 +13,7 @@ export function Scrobbles({ track }) {
   // const [timeAgo, setTimeAgo] = useState(0);
   // const [timeUnit, setTimeUnit] = useState("min");
   const columns = [
-    { field: "col1", headerName: "Name", width: 150 },
+    { field: "col1", headerName: "Name", width: 250 },
     { field: "col2", headerName: "Artist", width: 150 },
     { field: "col3", headerName: "Scrobbled", width: 100 },
     {
@@ -88,14 +90,16 @@ export function Scrobbles({ track }) {
       setRows([]);
     };
   }, []);
-  console.log("checking if track exists: ", track);
   if (track) setRows(rows.unshift(track))
-  console.log("rows", rows);
 
   //console.log("rows", rows);
   return (
-    <div style={{ height: "300px", width: "60%" }}>
-      <DataGrid columns={columns} rows={rows} />
+    <div className="scrobbles">
+      <h3>Listening history</h3>
+      <div className="grid">
+        <DataGrid columns={columns} rows={rows} />
+      </div>
     </div>
+
   );
 }

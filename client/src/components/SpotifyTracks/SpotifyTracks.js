@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
-import { Track } from "../models/Track";
+import { Track } from "../../models/Track";
 import { DataGrid } from "@mui/x-data-grid";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import {
-  GridActionsCellItem,
-} from "@mui/x-data-grid-pro";
-import { getSavedTracks } from "../utils/spotifyService";
+import { GridActionsCellItem } from "@mui/x-data-grid-pro";
+import { getSavedTracks } from "../../utils/spotifyService";
+import "./spotify-tracks.css"
 // const spotifyApi = new SpotifyWebApi({
 //   clientId: "0cc65edbfc7649b087b605c605e9aade",
 // });
@@ -86,9 +85,9 @@ export default function SpotifyTracks({ spotifyApi }) {
 
   // console.log(rows);
   return (
-    <div className="tracks">
+    <div className="spotify-tracks">
       <h4>Saved from spotify</h4>
-      <div style={{ height: "400px", width: "50%", marginLeft: "20px" }}>
+      <div className="grid">
         <DataGrid rows={rows} columns={columns} />
       </div>
 

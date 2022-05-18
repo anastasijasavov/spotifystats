@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import { Track } from "../models/Track";
+import { Track } from "../../models/Track";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { saveScrobble } from "../utils/http-requests";
-import { Scrobbles } from "./Scrobbles";
-import { trackIsSaved } from "../utils/spotifyService";
+import { saveScrobble } from "../../utils/http-requests";
+import { Scrobbles } from "../scrobbles/Scrobbles";
+import { trackIsSaved } from "../../utils/spotifyService";
 
 function useInterval(callback, delay) {
   const savedCallback = useRef();
@@ -89,9 +89,11 @@ export default function CurrentTrack({ spotifyApi }) {
 
       },
       function (err) {
-        if (err.status === 401)
-          //set refresh token
-          spotifyApi.setAccessToken(window.localStorage.getItem("refreshToken"));
+        if (err.status === 401) {
+          window.localStorage.removeItem("refreshToken");
+          window.localStorage.removeItem("accessToken");
+        }
+        //set refresh token
         console.log("Refreshing the token...", err);
       }
     );

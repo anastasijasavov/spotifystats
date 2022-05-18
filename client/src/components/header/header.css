@@ -1,0 +1,19 @@
+.links {
+    color: white;
+    margin: 0 20px 0 20px;
+    font-size: 2ch;
+}
+
+.logout {
+    cursor: pointer;
+    margin-left: 100px;
+    font-size: 2em;
+    position: fixed;
+    top: 0.5em;
+    right: 0.5em;
+}
+
+.links:hover {
+    color: white;
+    list-style-type: none;
+}

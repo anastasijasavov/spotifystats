@@ -21,7 +21,7 @@ export default function SelectAutoWidth() {
                     value={period}
                     onChange={handleChange}
                     autoWidth
-                    label="Age"
+                    label="Period"
                 >
                     <MenuItem value={0}>
                         <em>all time</em>
