@@ -25,11 +25,11 @@ function useInterval(callback, delay) {
   }, [delay]);
 }
 
-export default function CurrentTrack({ props }) {
+export default function CurrentTrack({ spotifyApi }) {
   //const accessToken = useAuth(code);
   const [track, setTrack] = useState(new Track());
   const [isSaved, setIsSaved] = useState(false);
-  const { accessToken, spotifyApi } = props;
+  const accessToken = window.localStorage.getItem("accessToken");
   const [songPlayedAt, setSongPlayedAt] = useState(0);
   //check accessToken
   useEffect(() => {
@@ -44,7 +44,7 @@ export default function CurrentTrack({ props }) {
       function (data) {
         if (
           data.body !== null &&
-          data.body.progress_ms / data.body.item.duration_ms < 0.3
+          data.body.progress_ms / data.body.item.duration_ms < 0.3 && data.body.is_playing
         ) {
           console.log("namestanje pocetka pesme");
           setSongPlayedAt(data.body.timestamp);

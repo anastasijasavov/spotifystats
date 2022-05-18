@@ -5,6 +5,7 @@ const url = "http://localhost:3005";
 export function getAllUsers() {
   return axios.get(`${url}/users`);
 }
+
 export async function saveUser(id, name) {
   let userExists = true;
   await axios
@@ -62,5 +63,24 @@ export async function removeScrobble(id) {
     .delete(`${url}/scrobbles/${id}`)
     .then(console.log("successfully removed scrobble"))
     .catch((err) => console.log(err));
+}
+
+export async function getScrobblesForPeriod(userID, period) {
+
+  return await axios
+    .get(`${url}/scrobbles?userID=${userID}`)
+    .then((res) => {
+      const data = res.data;
+      data.then(tracks => {
+        var today = new Date().getMilliseconds();
+
+        tracks.filter(track => track.track.scrobble_id >= today - period);
+        return tracks;
+      })
+      console.log(`data from last period of:${period}ms: ${data}`);
+    })
+    .catch((err) => {
+      console.log("couldnt get scrobbles", err);
+    });
 }
 

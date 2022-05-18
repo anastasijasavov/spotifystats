@@ -6,7 +6,6 @@ import Main from "./components/main/Main";
 // import Tab from '@mui/material/Tab';
 // import { useState } from "react";
 import useAuth from "./useAuth";
-
 // function LinkTab(props) {
 //   return (
 //     <Tab
@@ -26,21 +25,25 @@ function SetToken(code) {
   window.localStorage.setItem("accessToken", accessToken);
   return <></>;
 }
+
 function App() {
   // const [value, setValue] = useState(0);
   document.title = "Spotify stats";
-
-  if (code == null) return <Login />;
-
   // const handleChange = (event, newValue) => {
   //   setValue(newValue);
   // };
-  if (window.localStorage.getItem("accessToken") == null) {
+
+  if (code == null)
+    return <Login />;
+
+  const token = window.localStorage.getItem("accessToken")
+  //console.log("local storage is null but code is not");
+  //window.localStorage.setItem("accessToken", accessToken);
+  if (token == null || token === "undefined") {
     SetToken(code);
   }
-  if (window.localStorage.getItem("accessToken") != null)
+  if (token != null && token !== "undefined")
     return (
-
       <Router>
         <div>
           <div style={{ margin: "auto " }}>
@@ -55,19 +58,25 @@ function App() {
               <li><Link to="/" >Home</Link></li>
               <li><Link to="/stats" >Stats</Link></li>
               <li><Link to="/me" >Profile</Link></li>
+              <button onClick={() => {
+                window.localStorage.removeItem("accessToken");
+                window.localStorage.removeItem("userID");
+                window.location = "/";
+              }}>Log out</button>
             </ul>
-
-
-
           </div>
           <Routes>
             <Route path="/" element={<Main />}></Route>
             <Route path="/stats" element={<Stats />}></Route>
             <Route path="/me" element={<h2>Me</h2>}></Route>
+
           </Routes>
         </div>
       </Router>
     );
+
+
+
 }
 
 export default App;

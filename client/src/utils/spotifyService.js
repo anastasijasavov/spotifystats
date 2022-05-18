@@ -1,9 +1,9 @@
 
-export function getSavedTracks(off, spotifyApi) {
+export function getSavedTracks(off, spotifyApi, limit) {
 
     return spotifyApi
         .getMySavedTracks({
-            limit: 5,
+            limit: limit,
             offset: off,
         })
         .then(

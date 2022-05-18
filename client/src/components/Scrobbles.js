@@ -2,11 +2,7 @@ import { getMyScrobbles, removeScrobble } from "../utils/http-requests";
 import { DataGrid } from "@mui/x-data-grid";
 import { useState, useEffect } from "react";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import {
-
-  GridActionsCellItem,
-
-} from "@mui/x-data-grid-pro";
+import { GridActionsCellItem } from "@mui/x-data-grid-pro";
 
 const userID = localStorage.getItem("userID");
 
@@ -80,10 +76,12 @@ export function Scrobbles() {
               col3: Math.floor(timeAgo) + timeUnit,
             };
           })
-          .reverse()
+          .reverse().slice(0, 5)
       );
     });
+    console.log("rows", rows);
     return () => {
+      // console.log("rows", rows);
       setRows([]);
     };
   }, []);

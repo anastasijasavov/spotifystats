@@ -10,16 +10,17 @@ import { getSavedTracks } from "../utils/spotifyService";
 //   clientId: "0cc65edbfc7649b087b605c605e9aade",
 // });
 
-export default function SpotifyTracks({ props }) {
+export default function SpotifyTracks({ spotifyApi }) {
 
   // const accessToken = useAuth(code);
   const [rows, setRows] = useState([]);
   //let rows = [];
   //check accessToken
+  const accessToken = window.localStorage.getItem("accessToken");
   useEffect(() => {
-    if (!props.accessToken) return;
-    props.spotifyApi.setAccessToken(props.accessToken);
-  }, [props.accessToken, props.spotifyApi]);
+    if (!accessToken) return;
+    spotifyApi.setAccessToken(accessToken);
+  }, [accessToken, spotifyApi]);
 
   const columns = [
     { field: "col1", headerName: "Name", width: 150 },
@@ -36,10 +37,11 @@ export default function SpotifyTracks({ props }) {
             icon={<FavoriteIcon />}
             label="Unsave"
             onClick={() => {
-              new Track(id).unsaveFromSpotify(props.spotifyApi);
-              //setRows(rows.filter(item => item.id !== id))
+              new Track(id).unsaveFromSpotify(spotifyApi);
+              setRows(rows.filter(item => item.id !== id))
+              // const index = rows.findIndex(e => e.id === id);
 
-              const tracks = getSavedTracks(1, props.spotifyApi);
+              const tracks = getSavedTracks(5, spotifyApi, 1);
               //var promise = Promise.resolve(tracks);
               //ne radi, pokaze stare saved pesme
               tracks.then(items => {
@@ -62,8 +64,8 @@ export default function SpotifyTracks({ props }) {
 
   //get tracks from spotify
   useEffect(() => {
-    if (!props.accessToken) return;
-    const tracks = getSavedTracks(0, props.spotifyApi);
+    if (!accessToken) return;
+    const tracks = getSavedTracks(0, spotifyApi, 5);
     console.log("saved from spotify", tracks);
     tracks.then(items => {
       setRows(items.map((item) => {
@@ -79,7 +81,7 @@ export default function SpotifyTracks({ props }) {
       // setTracks([]);
       setRows([]);
     };
-  }, [props.accessToken, props.spotifyApi]);
+  }, [accessToken, spotifyApi]);
 
 
   // console.log(rows);
