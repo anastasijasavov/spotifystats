@@ -22,6 +22,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "4.0.3",
     "react-spotify-web-playback": "^0.8.1",
+    "sass": "^1.51.0",
     "spotify-web-api-node": "^5.0.2",
     "web-vitals": "^1.1.0"
   },

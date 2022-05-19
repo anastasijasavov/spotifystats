@@ -11,7 +11,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 // import { saveScrobble } from "../../utils/http-requests";
 import { Scrobbles } from "../scrobbles/Scrobbles";
 // import { trackIsSaved } from "../../utils/spotifyService";
-import "./current-track.css";
+import "./current-track.scss";
 
 
 export default function CurrentTrack({ spotifyApi, sendData }) {
@@ -29,7 +29,6 @@ export default function CurrentTrack({ spotifyApi, sendData }) {
     // }, [accessToken, spotifyApi]);
 
 
-    console.log("data passed to child", sendData.track);
     if (sendData.track === "undefined" || sendData.track == null) {
         console.log("data is empty, returning only scrobbles");
         return <><Scrobbles currentTrack={sendData.track} /></>;
@@ -59,7 +58,7 @@ export default function CurrentTrack({ spotifyApi, sendData }) {
                         </CardContent>
                         <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1, pointer: "cursor" }}>
 
-                            {sendData.track.id !== undefined ? (!isSaved ? (
+                            {sendData.track.id !== undefined ? (!sendData.isSaved ? (
                                 <FavoriteBorderIcon onClick={() => {
                                     sendData.track.saveToSpotify(spotifyApi);
                                     setIsSaved(true);

@@ -8,12 +8,13 @@
     cursor: pointer;
     margin-left: 100px;
     font-size: 2em;
-    position: fixed;
-    top: 0.5em;
-    right: 0.5em;
+    top: 0.7em;
+    right: 0.7em;
+    position: absolute;
 }
 
 .links:hover {
     color: white;
     list-style-type: none;
+    position: absolute;
 }

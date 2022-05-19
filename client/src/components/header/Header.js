@@ -8,7 +8,9 @@ import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import { Link } from "react-router-dom";
 import LogoutIcon from '@mui/icons-material/Logout';
+import TrackSearchResult from "./TrackSearchResult";
 import "./header.css";
+import { useState, useEffect } from "react";
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -52,7 +54,41 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-export default function Header() {
+export default function Header({ spotifyApi }) {
+
+    const [search, setSearch] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
+
+    useEffect(() => {
+        if (!search) return setSearchResults([]);
+
+
+        let cancel = false;
+        spotifyApi.searchTracks(search).then((res) => {
+            if (cancel) return;
+            setSearchResults(
+                res.body.tracks.items.map((track) => {
+                    const smallestAlbumImage = track.album.images.reduce(
+                        (smallest, image) => {
+                            if (image.height < smallest.height) return image;
+                            return smallest;
+                        },
+                        track.album.images[0]
+                    );
+
+                    return {
+                        artist: track.artists[0].name,
+                        title: track.name,
+                        uri: track.uri,
+                        albumUrl: smallestAlbumImage.url,
+                    };
+                })
+            );
+        });
+
+        return () => (cancel = true);
+    }, [search, spotifyApi]);
+
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
@@ -63,13 +99,14 @@ export default function Header() {
                         <Link to="/me" className="links" >Profile</Link>
                     </div>
 
-                    <Search style={{ marginLeft: "40vw", position: 'fixed' }}>
+                    <Search style={{ marginLeft: "40vw", position: "absolute" }}>
                         <SearchIconWrapper>
                             <SearchIcon />
                         </SearchIconWrapper>
                         <StyledInputBase
                             placeholder="Search…"
                             inputProps={{ 'aria-label': 'search' }}
+                            onChange={(e) => setSearch(e.target.value)}
                         />
                     </Search>
 
@@ -80,7 +117,11 @@ export default function Header() {
                         window.location = "/";
                     }} />
                 </Toolbar>
+
             </AppBar>
+            {searchResults.map((track) => (
+                <TrackSearchResult track={track} key={track.uri} />
+            ))}
         </Box >
     );
 }

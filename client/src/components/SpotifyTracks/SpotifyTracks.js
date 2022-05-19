@@ -4,7 +4,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { GridActionsCellItem } from "@mui/x-data-grid-pro";
 import { getSavedTracks } from "../../utils/spotifyService";
-import "./spotify-tracks.css"
+import "./spotify-tracks.scss"
 // const spotifyApi = new SpotifyWebApi({
 //   clientId: "0cc65edbfc7649b087b605c605e9aade",
 // });
@@ -22,13 +22,13 @@ export default function SpotifyTracks({ spotifyApi }) {
   }, [accessToken, spotifyApi]);
 
   const columns = [
-    { field: "col1", headerName: "Name", width: 150 },
-    { field: "col2", headerName: "Artist", width: 150 },
+    { field: "col1", headerName: "Name", flex: 1 },
+    { field: "col2", headerName: "Artist", flex: 1 },
     {
       field: "actions",
       type: "actions",
       headerName: "Actions",
-      width: 100,
+      flex: 1,
       cellClassName: "actions",
       getActions: ({ id }) => {
         return [

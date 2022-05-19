@@ -3,7 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useState, useEffect } from "react";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { GridActionsCellItem } from "@mui/x-data-grid-pro";
-import "./scrobbles.css";
+import "./scrobbles.scss";
 
 
 const userID = localStorage.getItem("userID");
@@ -13,9 +13,9 @@ export function Scrobbles({ track }) {
   // const [timeAgo, setTimeAgo] = useState(0);
   // const [timeUnit, setTimeUnit] = useState("min");
   const columns = [
-    { field: "col1", headerName: "Name", width: 250 },
-    { field: "col2", headerName: "Artist", width: 150 },
-    { field: "col3", headerName: "Scrobbled", width: 100 },
+    { field: "col1", headerName: "Name", flex: 1 },
+    { field: "col2", headerName: "Artist", flex: 1 },
+    { field: "col3", headerName: "Scrobbled", flex: 1 },
     {
       field: "actions",
       type: "actions",
@@ -46,8 +46,6 @@ export function Scrobbles({ track }) {
     today = today.getTime();
     let timeAgo = 0;
     let timeUnit = "min";
-
-
 
     scrobbles.then((tracks) => {
       setRows(

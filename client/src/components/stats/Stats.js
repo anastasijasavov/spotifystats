@@ -2,7 +2,7 @@ import { getMyScrobbles } from "../../utils/http-requests"
 import { DataGrid } from "@mui/x-data-grid";
 import { useState, useEffect, useMemo } from "react"
 import SpotifyTracks from "../SpotifyTracks/SpotifyTracks";
-import "./stats.css";
+import "./stats.scss";
 
 export function Stats({ spotifyApi }) {
 
@@ -13,7 +13,6 @@ export function Stats({ spotifyApi }) {
     var groups = useMemo(() => [], []);
     useEffect(() => {
         data.then(tracks => {
-
             for (let index = 0; index < tracks.length; index++) {
                 const element = tracks[index];
                 var foundIndex = groups.findIndex(e => e.id === element.track.id)
@@ -32,7 +31,6 @@ export function Stats({ spotifyApi }) {
             }
             groups.sort((a, b) => b.count - a.count);
             setRows(groups.slice(0, 10));
-            // console.log("grupe", groups);
         });
         return () => {
 
@@ -43,9 +41,9 @@ export function Stats({ spotifyApi }) {
 
     // console.log("top 10 scrobbles all time: ", groups);
     const columns = [
-        { field: "name", headerName: "Name", width: 200 },
-        { field: "artist", headerName: "Artist", width: 200 },
-        { field: "count", headerName: "Frequency", width: 100 }
+        { field: "name", headerName: "Name", flex: 1 },
+        { field: "artist", headerName: "Artist", flex: 1 },
+        { field: "count", headerName: "Frequency", flex: 1 }
     ]
     return (
         <>
