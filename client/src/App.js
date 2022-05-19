@@ -24,24 +24,6 @@ import { saveScrobble } from "./utils/http-requests";
 //   );
 // }
 
-function useInterval(callback, delay) {
-  const savedCallback = useRef();
-  // Remember the latest callback.
-  useEffect(() => {
-    savedCallback.current = callback;
-  }, [callback]);
-
-  // Set up the interval.
-  useEffect(() => {
-    function tick() {
-      savedCallback.current();
-    }
-    if (delay !== null) {
-      let id = setInterval(tick, delay);
-      return () => clearInterval(id);
-    }
-  }, [delay]);
-}
 let code = new URLSearchParams(window.location.search).get("code");
 
 function App() {
@@ -85,93 +67,102 @@ function App() {
     }
   }, [spotifyApi]);
 
-  useInterval(() => {
+  useEffect(() => {
     const accessToken = window.localStorage.getItem("accessToken");
 
     if (!accessToken) return;
 
-    spotifyApi.getMyCurrentPlayingTrack().then(
-      function (data) {
-        if (data.body == null || !data.body.is_playing || data.body.item.duration_ms == null) { return; }
+    const interval = setInterval(() => {
 
-        if (data.body.progress_ms / data.body.item.duration_ms < 0.3) {
-          console.log("namestanje pocetka pesme");
-          setSongPlayedAt(data.body.timestamp);
-        }
-        const scrobble = new Track(
-          data.body.item.id,
-          data.body.item.name,
-          data.body.item.artists[0].name,
-          data.body.item.duration_ms,
-          data.body.timestamp,
-          data.body.item.album.images[1].url
-        );
-        if (!isSaved)
-          spotifyApi.containsMySavedTracks([data.body.item.id]).then(
-            function (data) {
-              if (data.body == null) setIsSaved(false);
-              // An array is returned, where the first element corresponds to the first track ID in the query
-              var trackIsInYourMusic = data.body[0];
+      spotifyApi.getMyCurrentPlayingTrack().then(
+        function (data) {
+          if (data.body == null || !data.body.is_playing || data.body.item.duration_ms == null) { return; }
 
-              if (trackIsInYourMusic) {
-                console.log("pesma je savedddd!!");
-                setIsSaved(true);
-              } else {
+          if (data.body.progress_ms / data.body.item.duration_ms < 0.3) {
+            console.log("namestanje pocetka pesme");
+            setSongPlayedAt(data.body.timestamp);
+          }
+
+          const scrobble = new Track(
+            data.body.item.id,
+            data.body.item.name,
+            data.body.item.artists[0].name,
+            data.body.item.duration_ms,
+            data.body.timestamp,
+            data.body.item.album.images[1].url
+          );
+          if (!isSaved)
+            spotifyApi.containsMySavedTracks([data.body.item.id]).then(
+              function (data) {
+                if (data.body == null) setIsSaved(false);
+                // An array is returned, where the first element corresponds to the first track ID in the query
+                var trackIsInYourMusic = data.body[0];
+
+                if (trackIsInYourMusic) {
+                  setIsSaved(true);
+                } else {
+                  setIsSaved(false);
+                }
+              },
+              function (err) {
+                console.log(
+                  "Something went wrong with checking whether the current song is saved!",
+                  err
+                );
                 setIsSaved(false);
               }
-            },
-            function (err) {
-              console.log(
-                "Something went wrong with checking whether the current song is saved!",
-                err
-              );
-              setIsSaved(false);
+            );
+
+          setTrack(scrobble);
+          sendData();
+          if (
+            (data.body.item.id !== track.id &&
+              data.body.progress_ms / data.body.item.duration_ms > 0.5) ||
+            (track.id === "undefined")
+          ) {
+            var today = new Date();
+            var today_ms = today.getTime();
+
+
+            console.log("the song has changed");
+
+            console.log("prev track timestamp:", track.timestamp);
+            console.log("api timestamp: ", data.body.timestamp);
+            console.log(" track progress:", data.body.progress_ms);
+            console.log("api track duration:", data.body.item.duration_ms);
+
+            let progressRatio = (today_ms - songPlayedAt) / data.body.progress_ms;
+            console.log("ratio:", progressRatio);
+
+            if (progressRatio > 0.6) {
+              console.log("song is being saved");
+              saveScrobble(scrobble, window.localStorage.getItem("userID"));
+
             }
-          );
 
-        setTrack(scrobble);
-        sendData();
-        if (
-          (data.body.item.id !== track.id &&
-            data.body.progress_ms / data.body.item.duration_ms > 0.5) ||
-          (track.id === "undefined")
-        ) {
-          var today = new Date();
-          var today_ms = today.getTime();
-
-
-          console.log("the song has changed");
-
-          console.log("prev track timestamp:", track.timestamp);
-          console.log("api timestamp: ", data.body.timestamp);
-          console.log(" track progress:", data.body.progress_ms);
-          console.log("api track duration:", data.body.item.duration_ms);
-
-          let progressRatio = (today_ms - songPlayedAt) / data.body.progress_ms;
-          console.log("ratio:", progressRatio);
-
-          if (progressRatio > 0.6) {
-            console.log("song is being saved");
-            saveScrobble(scrobble, window.localStorage.getItem("userID"));
 
           }
 
+        },
+        function (err) {
 
+          console.log("error 401");
+          window.localStorage.removeItem("refreshToken");
+          window.localStorage.removeItem("accessToken");
+          window.location = "/";
+
+          //set refresh token
+          console.log("Refreshing the token...", err);
         }
+      );
 
-      },
-      function (err) {
+    }, [5000]);
 
-        console.log("error 401");
-        window.localStorage.removeItem("refreshToken");
-        window.localStorage.removeItem("accessToken");
-        window.location = "/";
+    return () => {
+      clearInterval(interval);
+    }
 
-        //set refresh token
-        console.log("Refreshing the token...", err);
-      }
-    );
-  }, 5000);
+  });
 
   if (code == null)
     return <Login />;
@@ -194,7 +185,6 @@ function App() {
             <Route path="/" element={<Main spotifyApi={spotifyApi} trackData={data} />}></Route>
             <Route path="/stats" element={<Stats spotifyApi={spotifyApi} />}></Route>
             <Route path="/me" element={<h2>Me</h2>}></Route>
-
           </Routes>
         </div>
       </Router>
