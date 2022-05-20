@@ -1,15 +1,17 @@
 import { getMyScrobbles } from "../../utils/http-requests"
+import { analyzeSongs } from "../../utils/stats-requests";
 import { DataGrid } from "@mui/x-data-grid";
 import { useState, useEffect, useMemo } from "react"
 import SpotifyTracks from "../SpotifyTracks/SpotifyTracks";
 import "./stats.scss";
+import Report from "./Report";
 
 export function Stats({ spotifyApi }) {
 
     const userID = window.localStorage.getItem("userID");
     const data = getMyScrobbles(userID);
     const [rows, setRows] = useState([])
-
+    const [pageSize, setPageSize] = useState(5)
     var groups = useMemo(() => [], []);
     useEffect(() => {
         data.then(tracks => {
@@ -30,8 +32,9 @@ export function Stats({ spotifyApi }) {
 
             }
             groups.sort((a, b) => b.count - a.count);
-            setRows(groups.slice(0, 10));
+            setRows(groups);
         });
+
         return () => {
 
         }
@@ -52,8 +55,16 @@ export function Stats({ spotifyApi }) {
 
             <div className="grid">
                 <h3>Top tracks: </h3>
-                <DataGrid rows={rows} columns={columns} />
+                <DataGrid
+                    rows={rows}
+                    columns={columns}
+                    pageSize={pageSize}
+                    onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+                    rowsPerPageOptions={[5, 10, 20]}
+                />
             </div>
+
+            <Report />
         </>
     );
 }

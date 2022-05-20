@@ -4,12 +4,13 @@ import { useState, useEffect } from "react";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { GridActionsCellItem } from "@mui/x-data-grid-pro";
 import "./scrobbles.scss";
-
+import Tooltip from '@mui/material/Tooltip';
 
 const userID = localStorage.getItem("userID");
 
 export function Scrobbles({ track }) {
   const [rows, setRows] = useState([]);
+  const [pageSize, setPageSize] = useState(5)
   // const [timeAgo, setTimeAgo] = useState(0);
   // const [timeUnit, setTimeUnit] = useState("min");
   const columns = [
@@ -25,7 +26,7 @@ export function Scrobbles({ track }) {
       getActions: ({ id }) => {
         return [
           <GridActionsCellItem
-            icon={<DeleteOutlineIcon />}
+            icon={<Tooltip title="delete from history"><DeleteOutlineIcon /></Tooltip>}
             label="Delete"
             onClick={() => {
               removeScrobble(id);
@@ -79,7 +80,7 @@ export function Scrobbles({ track }) {
               col3: Math.floor(timeAgo) + timeUnit,
             };
           })
-          .reverse().slice(0, 5)
+          .reverse()
       );
 
     });
@@ -95,7 +96,13 @@ export function Scrobbles({ track }) {
     <div className="scrobbles">
       <h3>Listening history</h3>
       <div className="grid">
-        <DataGrid columns={columns} rows={rows} />
+        <DataGrid
+          columns={columns}
+          rows={rows}
+          pageSize={pageSize}
+          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          rowsPerPageOptions={[5, 10, 20]}
+        />
       </div>
     </div>
 

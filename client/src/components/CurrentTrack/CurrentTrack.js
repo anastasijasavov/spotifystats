@@ -5,7 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { useState } from "react";
-// import { Track } from "../../models/Track";
+import Tooltip from '@mui/material/Tooltip';
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 // import { saveScrobble } from "../../utils/http-requests";
@@ -56,17 +56,21 @@ export default function CurrentTrack({ spotifyApi, sendData }) {
                                 by {sendData.track.artist}
                             </Typography>
                         </CardContent>
-                        <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1, pointer: "cursor" }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }} className="heart-btn">
 
                             {sendData.track.id !== undefined ? (!sendData.isSaved ? (
-                                <FavoriteBorderIcon onClick={() => {
-                                    sendData.track.saveToSpotify(spotifyApi);
-                                    setIsSaved(true);
-                                }} />) : (
-                                <FavoriteIcon onClick={() => {
-                                    sendData.track.unsaveFromSpotify(spotifyApi);
-                                    setIsSaved(false);
-                                }} />)
+                                <Tooltip title="save to spotify">
+                                    <FavoriteBorderIcon onClick={() => {
+                                        sendData.track.saveToSpotify(spotifyApi);
+                                        setIsSaved(true);
+                                    }} />
+                                </Tooltip>) : (
+                                <Tooltip title="unsave from spotify">
+                                    <FavoriteIcon onClick={() => {
+                                        sendData.track.unsaveFromSpotify(spotifyApi);
+                                        setIsSaved(false);
+                                    }} />
+                                </Tooltip>)
                             ) : null}
 
                         </Box>

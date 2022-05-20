@@ -37,16 +37,3 @@ export function getSavedTracks(off, spotifyApi, limit) {
 }
 
 
-
-/*
-
-setRows(
-            data.body.items.map((item) => {
-              return {
-                id: item.track.id,
-                col1: item.track.name,
-                col2: item.track.artists[0].name,
-              };
-            })
-          );
-*/

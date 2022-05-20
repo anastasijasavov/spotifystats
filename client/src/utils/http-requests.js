@@ -84,3 +84,13 @@ export async function getScrobblesForPeriod(userID, period) {
     });
 }
 
+export function getMe() {
+  return window.localStorage.getItem("userID");
+}
+
+export function authenticateUser() {
+  return window.localStorage.getItem("accessToken") != null &&
+    window.localStorage.getItem("userID") != null ?
+    true : console.log("Couldn't authenticate user.");
+}
+
