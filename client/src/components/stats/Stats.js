@@ -1,5 +1,5 @@
 import { getMyScrobbles } from "../../utils/http-requests"
-import { analyzeSongs } from "../../utils/stats-requests";
+import { getTopGenres } from "../../utils/spotifyService";
 import { DataGrid } from "@mui/x-data-grid";
 import { useState, useEffect, useMemo } from "react"
 import SpotifyTracks from "../SpotifyTracks/SpotifyTracks";
@@ -34,7 +34,7 @@ export function Stats({ spotifyApi }) {
             groups.sort((a, b) => b.count - a.count);
             setRows(groups);
         });
-
+        getTopGenres(spotifyApi);
         return () => {
 
         }

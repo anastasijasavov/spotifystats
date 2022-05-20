@@ -2,18 +2,9 @@ import axios from "axios";
 import { getMyScrobbles } from "./http-requests";
 
 
-export function getTopGenres(spotifyApi) {
-
-}
-
-export function getTopArtists(spotifyApi) {
-
-}
-
 export function recommendPlaylist() {
 
 }
-
 export function getTopScrobbles(userID) {
     let groups = [];
     return getMyScrobbles(userID).then(tracks => {
@@ -47,7 +38,6 @@ export function analyzeSongs() {
     let trackIDs = "";
     let averageSongData = [];
     getTopScrobbles(userID).then(tracks => {
-
         tracks.slice(0, topSongCount).forEach(track => {
             trackIDs += `${track.id},`;
         });
@@ -72,7 +62,8 @@ export function analyzeSongs() {
                 instrumentalness: 0,
                 tempo: 0,
                 time_signature: 0,
-                valence: 0
+                valence: 0,
+                duration: 0
             };
             let totalWeight = 0;
             for (let index = 0; index < topSongCount; index++) {
@@ -80,7 +71,6 @@ export function analyzeSongs() {
                 const songCount = tracks[index].count;
                 const track = res.data.audio_features[index];
                 totalWeight += songCount;
-
                 averageSong.acousticness += track.acousticness * songCount;
                 averageSong.loudness += track.loudness * songCount;
                 averageSong.energy += track.energy * songCount;
@@ -90,6 +80,7 @@ export function analyzeSongs() {
                 averageSong.tempo += track.tempo * songCount;
                 averageSong.time_signature += track.time_signature * songCount;
                 averageSong.valence += track.valence * songCount;
+                averageSong.duration += track.duration_ms * songCount;
             }
 
             averageSong = {
@@ -101,7 +92,8 @@ export function analyzeSongs() {
                 instrumentalness: averageSong.instrumentalness / totalWeight,
                 tempo: averageSong.tempo / totalWeight,
                 time_signature: averageSong.time_signature / totalWeight,
-                valence: averageSong.valence / totalWeight
+                valence: averageSong.valence / totalWeight,
+                duration: averageSong.duration_ms / totalWeight
             }
 
             averageSongData.push(res.data.audio_features[0]);

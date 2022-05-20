@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./Login";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import { Stats } from "./components/stats/Stats";
+import { Stats } from "./components/Stats/Stats";
 import Main from "./components/main/Main";
 import Header from "./components/header/Header";
 // import Tab from '@mui/material/Tab';
