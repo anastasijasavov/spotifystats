@@ -24,7 +24,6 @@ export function getTopScrobbles(userID) {
             else groups[foundIndex].count++;
         }
         groups.sort((a, b) => b.count - a.count);
-        console.log(groups);
         return groups;
     });
 
@@ -37,12 +36,12 @@ export function analyzeSongs() {
     const token = window.localStorage.getItem("accessToken");
     let trackIDs = "";
     let averageSongData = [];
-    getTopScrobbles(userID).then(tracks => {
+    return getTopScrobbles(userID).then(tracks => {
         tracks.slice(0, topSongCount).forEach(track => {
             trackIDs += `${track.id},`;
         });
         trackIDs = encodeURIComponent(trackIDs.substring(0, trackIDs.length - 1));
-        console.log("tracksIDs: ", trackIDs);
+
         axios.get(`https://api.spotify.com/v1/audio-features?ids=${trackIDs}`,
             {
                 headers: {
@@ -51,7 +50,6 @@ export function analyzeSongs() {
                 }
             }
         ).then(res => {
-            console.log(res.data.audio_features);
 
             let averageSong = {
                 acousticness: 0,
@@ -98,7 +96,6 @@ export function analyzeSongs() {
 
             averageSongData.push(res.data.audio_features[0]);
             averageSongData.push(averageSong);
-            console.log("average song: ", averageSongData);
             return averageSongData;
 
         }).catch(err => console.log(err));
