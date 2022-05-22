@@ -36,7 +36,7 @@ export function analyzeSongs() {
     const token = window.localStorage.getItem("accessToken");
     let trackIDs = "";
     let averageSongData = [];
-    return getTopScrobbles(userID).then(tracks => {
+    getTopScrobbles(userID).then(tracks => {
         tracks.slice(0, topSongCount).forEach(track => {
             trackIDs += `${track.id},`;
         });
@@ -96,9 +96,8 @@ export function analyzeSongs() {
 
             averageSongData.push(res.data.audio_features[0]);
             averageSongData.push(averageSong);
-            return averageSongData;
 
         }).catch(err => console.log(err));
     });
-
+    return averageSongData;
 }

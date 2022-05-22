@@ -1,4 +1,27 @@
-.grid {
-    width: 50%;
+.topTracks {
+    width: 60%;
+    max-width: 40vw;
+    display: flex;
+    // color: black;
 
+    .topTracks-card {
+        width: 50vw;
+        height: 400px;
+    }
+}
+
+.card {
+    margin: 7vh 0 0 2vw;
+}
+
+h3 {
+    margin: 7vh 0 0 2vw;
+}
+
+.upperBody {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: flex-start;
+    justify-content: space-evenly;
 }

@@ -1,11 +1,9 @@
 import { getMyScrobbles } from "../../utils/http-requests"
-import { getTopGenres } from "../../utils/spotifyService";
 import { DataGrid } from "@mui/x-data-grid";
 import { useState, useEffect, useMemo } from "react"
-import SpotifyTracks from "../SpotifyTracks/SpotifyTracks";
 import "./stats.scss";
 import Report from "./Report";
-
+import TopGenres from "../TopGenres/TopGenres";
 export function Stats({ spotifyApi }) {
 
     const userID = window.localStorage.getItem("userID");
@@ -13,6 +11,7 @@ export function Stats({ spotifyApi }) {
     const [rows, setRows] = useState([])
     const [pageSize, setPageSize] = useState(5)
     var groups = useMemo(() => [], []);
+
     useEffect(() => {
         data.then(tracks => {
             for (let index = 0; index < tracks.length; index++) {
@@ -34,7 +33,6 @@ export function Stats({ spotifyApi }) {
             groups.sort((a, b) => b.count - a.count);
             setRows(groups);
         });
-        getTopGenres(spotifyApi);
         return () => {
 
         }
@@ -50,20 +48,23 @@ export function Stats({ spotifyApi }) {
     ]
     return (
         <>
-            <SpotifyTracks spotifyApi={spotifyApi} />
+            <div className="upperBody">
+                <div className="topTracks">
+                    <div className="topTracks-card">
+                        <h3>Top tracks: </h3>
+                        <DataGrid
+                            rows={rows}
+                            columns={columns}
+                            pageSize={pageSize}
+                            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+                            rowsPerPageOptions={[5, 10, 20]}
+                        />
+                    </div>
+                </div>
 
 
-            <div className="grid">
-                <h3>Top tracks: </h3>
-                <DataGrid
-                    rows={rows}
-                    columns={columns}
-                    pageSize={pageSize}
-                    onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-                    rowsPerPageOptions={[5, 10, 20]}
-                />
+                <TopGenres spotifyApi={spotifyApi} />
             </div>
-
             <Report />
         </>
     );

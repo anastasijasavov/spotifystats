@@ -2,6 +2,11 @@
     color: white;
     margin: 0 20px 0 20px;
     font-size: 2ch;
+
+    &:hover {
+        color: white;
+        list-style-type: none;
+    }
 }
 
 .logout {
@@ -13,7 +18,6 @@
     position: absolute;
 }
 
-.links:hover {
-    color: white;
-    list-style-type: none;
-}
+// .searchResult {
+//     width: 50%;
+// }

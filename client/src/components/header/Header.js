@@ -9,7 +9,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Link } from "react-router-dom";
 import LogoutIcon from '@mui/icons-material/Logout';
 import TrackSearchResult from "./TrackSearchResult";
-import "./header.css";
+import "./header.scss";
 import { useState, useEffect } from "react";
 
 const Search = styled('div')(({ theme }) => ({
@@ -61,7 +61,6 @@ export default function Header({ spotifyApi }) {
 
     useEffect(() => {
         if (!search) return setSearchResults([]);
-
 
         let cancel = false;
         spotifyApi.searchTracks(search).then((res) => {

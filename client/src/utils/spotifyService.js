@@ -37,26 +37,26 @@ export function getSavedTracks(off, spotifyApi, limit) {
 }
 
 
-export function getTopArtists(spotifyApi) {
-    return spotifyApi.getMyTopArtists()
-        .then(function (data) {
-            return data.body.items;
-        }, function (err) {
-            console.log('Something went wrong!', err);
-        });
-}
+// export function getTopArtists(spotifyApi) {
+//     return spotifyApi.getMyTopArtists()
+//         .then(function (data) {
+//             return data.body.items;
+//         }, function (err) {
+//             console.log('Something went wrong!', err);
+//         });
+// }
 
-function getTopArtistsIDs(spotifyApi) {
-    return spotifyApi.getMyTopArtists()
-        .then(function (data) {
-            console.log("get top artists ids function returns: ", data.body.items);
-            return data.body.items.map(artist => artist.id);
-        }, function (err) {
-            console.log('Something went wrong!', err);
-        });
-}
+// function getTopArtistsIDs(spotifyApi) {
+//     return spotifyApi.getMyTopArtists()
+//         .then(function (data) {
+//             console.log("get top artists ids function returns: ", data.body.items);
+//             return data.body.items.map(artist => artist.id);
+//         }, function (err) {
+//             console.log('Something went wrong!', err);
+//         });
+// }
 
-function getGenreGroups(genresArr) {
+export function getGenreGroups(genresArr) {
     let genreGroup = [];
     for (let index = 0; index < genresArr.length; index++) {
         const genres = genresArr[index];
@@ -70,24 +70,23 @@ function getGenreGroups(genresArr) {
             }
         }
     }
-    console.log("genre group", genreGroup);
     return genreGroup.sort((a, b) => b.count - a.count);
 }
 export function getTopGenres(spotifyApi) {
 
     let genres = [];
     let distinctGenres = [];
-    return getTopArtistsIDs(spotifyApi).then(artists => {
 
-        return spotifyApi.getArtists(artists).then(res => {
-            console.log("res", res);
-            genres = res.body.artists.map(artist => { return artist.genres });
-            console.log("genres", genres);
-            distinctGenres = getGenreGroups(genres);
-            console.log(distinctGenres);
-        }).catch(err => console.log(err));
-
-    }).catch(err => console.log(err));
-
+    spotifyApi.getMyTopArtists().then(function (data) {
+        spotifyApi.getArtists(data.body.items.map(artist => artist.id))
+            .then(res => {
+                genres = res.body.artists.map(artist => { return artist.genres });
+                distinctGenres = getGenreGroups(genres).slice(0, 5);
+                console.log(distinctGenres);
+                return distinctGenres;
+            }).catch(err => console.log(err));
+    }, function (err) {
+        console.log('Something went wrong!', err);
+    });
 
 }

@@ -164,13 +164,13 @@ function App() {
 
   });
 
+  const token = window.localStorage.getItem("accessToken")
   if (code == null)
     return <Login />;
 
-  const token = window.localStorage.getItem("accessToken")
   //console.log("local storage is null but code is not");
   //window.localStorage.setItem("accessToken", accessToken);
-  if (token == null || token === "undefined") {
+  if (token === "undefined" || token == null) {
     SetToken(code);
   }
 
