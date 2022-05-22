@@ -29,75 +29,76 @@ export function getTopScrobbles(userID) {
 
 }
 
-export function analyzeSongs() {
+export async function analyzeSongs() {
 
     const topSongCount = 10;
     const userID = window.localStorage.getItem("userID");
     const token = window.localStorage.getItem("accessToken");
     let trackIDs = "";
     let averageSongData = [];
-    getTopScrobbles(userID).then(tracks => {
-        tracks.slice(0, topSongCount).forEach(track => {
-            trackIDs += `${track.id},`;
-        });
-        trackIDs = encodeURIComponent(trackIDs.substring(0, trackIDs.length - 1));
-
-        axios.get(`https://api.spotify.com/v1/audio-features?ids=${trackIDs}`,
-            {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            }
-        ).then(res => {
-
-            let averageSong = {
-                acousticness: 0,
-                loudness: 0,
-                energy: 0,
-                danceability: 0,
-                speechiness: 0,
-                instrumentalness: 0,
-                tempo: 0,
-                time_signature: 0,
-                valence: 0,
-                duration: 0
-            };
-            let totalWeight = 0;
-            for (let index = 0; index < topSongCount; index++) {
-
-                const songCount = tracks[index].count;
-                const track = res.data.audio_features[index];
-                totalWeight += songCount;
-                averageSong.acousticness += track.acousticness * songCount;
-                averageSong.loudness += track.loudness * songCount;
-                averageSong.energy += track.energy * songCount;
-                averageSong.danceability += track.danceability * songCount;
-                averageSong.speechiness += track.speechiness * songCount;
-                averageSong.instrumentalness += track.instrumentalness * songCount;
-                averageSong.tempo += track.tempo * songCount;
-                averageSong.time_signature += track.time_signature * songCount;
-                averageSong.valence += track.valence * songCount;
-                averageSong.duration += track.duration_ms * songCount;
-            }
-
-            averageSong = {
-                acousticness: averageSong.acousticness / totalWeight,
-                loudness: averageSong.loudness / totalWeight,
-                energy: averageSong.energy / totalWeight,
-                danceability: averageSong.danceability / totalWeight,
-                speechiness: averageSong.speechiness / totalWeight,
-                instrumentalness: averageSong.instrumentalness / totalWeight,
-                tempo: averageSong.tempo / totalWeight,
-                time_signature: averageSong.time_signature / totalWeight,
-                valence: averageSong.valence / totalWeight,
-                duration: averageSong.duration_ms / totalWeight
-            }
-
-            averageSongData.push(res.data.audio_features[0]);
-            averageSongData.push(averageSong);
-
-        }).catch(err => console.log(err));
+    const tracks = await getTopScrobbles(userID);
+    tracks.slice(0, topSongCount).forEach(track => {
+        trackIDs += `${track.id},`;
     });
-    return averageSongData;
+    trackIDs = encodeURIComponent(trackIDs.substring(0, trackIDs.length - 1));
+
+    const songsData = axios.get(`https://api.spotify.com/v1/audio-features?ids=${trackIDs}`,
+        {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        }
+    ).then(res => {
+
+        let averageSong = {
+            acousticness: 0,
+            loudness: 0,
+            energy: 0,
+            danceability: 0,
+            speechiness: 0,
+            instrumentalness: 0,
+            tempo: 0,
+            time_signature: 0,
+            valence: 0,
+            duration: 0
+        };
+        let totalWeight = 0;
+        for (let index = 0; index < topSongCount; index++) {
+
+            const songCount = tracks[index].count;
+            const track = res.data.audio_features[index];
+            totalWeight += songCount;
+            averageSong.acousticness += track.acousticness * songCount;
+            averageSong.loudness += track.loudness * songCount;
+            averageSong.energy += track.energy * songCount;
+            averageSong.danceability += track.danceability * songCount;
+            averageSong.speechiness += track.speechiness * songCount;
+            averageSong.instrumentalness += track.instrumentalness * songCount;
+            averageSong.tempo += track.tempo * songCount;
+            averageSong.time_signature += track.time_signature * songCount;
+            averageSong.valence += track.valence * songCount;
+            averageSong.duration += track.duration_ms * songCount;
+        }
+
+        averageSong = {
+            acousticness: averageSong.acousticness / totalWeight,
+            loudness: averageSong.loudness / totalWeight,
+            energy: averageSong.energy / totalWeight,
+            danceability: averageSong.danceability / totalWeight,
+            speechiness: averageSong.speechiness / totalWeight,
+            instrumentalness: averageSong.instrumentalness / totalWeight,
+            tempo: averageSong.tempo / totalWeight,
+            time_signature: averageSong.time_signature / totalWeight,
+            valence: averageSong.valence / totalWeight,
+            duration: averageSong.duration_ms / totalWeight
+        }
+
+        averageSongData.push(res.data.audio_features[0]);
+        averageSongData.push(averageSong);
+        return averageSongData;
+    }).catch(err => console.log(err));
+
+    return await songsData;
+
 }

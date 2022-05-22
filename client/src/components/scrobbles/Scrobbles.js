@@ -40,6 +40,7 @@ export function Scrobbles({ track }) {
   ];
 
   useEffect(() => {
+
     const scrobbles = getMyScrobbles(userID);
     //let rows = []
 
@@ -89,7 +90,7 @@ export function Scrobbles({ track }) {
       setRows([]);
     };
   }, []);
-  if (track) setRows(rows.unshift(track))
+  // if (track) setRows(rows.unshift(track))
 
   //console.log("rows", rows);
   return (

@@ -11,6 +11,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import TrackSearchResult from "./TrackSearchResult";
 import "./header.scss";
 import { useState, useEffect } from "react";
+import Tooltip from '@mui/material/Tooltip';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -90,7 +91,7 @@ export default function Header({ spotifyApi }) {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
+            <AppBar position="static" sx={{ backgroundColor: "#623c96" }}>
                 <Toolbar>
                     <div className='links'>
                         <Link to="/" className="links">Home</Link>
@@ -108,13 +109,15 @@ export default function Header({ spotifyApi }) {
                             onChange={(e) => setSearch(e.target.value)}
                         />
                     </Search>
+                    <Tooltip title="log out">
+                        <LogoutIcon className="logout" onClick={() => {
+                            window.localStorage.removeItem("accessToken");
+                            window.localStorage.removeItem("refreshToken");
+                            window.localStorage.removeItem("userID");
+                            window.location = "/";
+                        }} />
+                    </Tooltip>
 
-                    <LogoutIcon className="logout" onClick={() => {
-                        window.localStorage.removeItem("accessToken");
-                        window.localStorage.removeItem("refreshToken");
-                        window.localStorage.removeItem("userID");
-                        window.location = "/";
-                    }} />
                 </Toolbar>
 
             </AppBar>

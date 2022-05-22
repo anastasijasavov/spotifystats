@@ -12,16 +12,19 @@ export default function useAuth(code) {
         code,
       })
       .then((res) => {
+
         setAccessToken(res.data.accessToken);
         setRefreshToken(res.data.refreshToken);
         setExpiresIn(res.data.expiresIn);
         window.history.pushState({}, null, "/");
+        console.log("called use auth");
+        return accessToken;
       })
       .catch(() => {
         console.log("error");
         window.location = "/";
       });
-  }, [code]);
+  }, [code, accessToken]);
 
   useEffect(() => {
     if (!refreshToken || !expiresIn) return;

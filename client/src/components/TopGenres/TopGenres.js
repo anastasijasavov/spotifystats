@@ -18,7 +18,8 @@ const TopGenres = ({ spotifyApi }) => {
     const [labels, setLabels] = useState([])
     useEffect(() => {
 
-
+        const token = window.localStorage.getItem("accessToken");
+        spotifyApi.setAccessToken(token);
         let genres = [];
         let distinctGenres = [];
         spotifyApi.getMyTopArtists().then(function (data) {
@@ -26,9 +27,8 @@ const TopGenres = ({ spotifyApi }) => {
                 .then(res => {
                     genres = res.body.artists.map(artist => { return artist.genres });
                     distinctGenres = getGenreGroups(genres).slice(0, 5);
-                    console.log(distinctGenres);
                     setTopGenres(distinctGenres);
-                    setNumbers(distinctGenres.map(genre => genre.count));
+                    setNumbers(distinctGenres.map(genre => genre.count / 20 * 100));
                     setLabels(distinctGenres.map(genre => genre.name));
                 }).catch(err => console.log(err));
         }, function (err) {
@@ -40,7 +40,7 @@ const TopGenres = ({ spotifyApi }) => {
     }, [spotifyApi])
 
     return (
-        <div>
+        <div className="top-genres">
             <h3>Top genres</h3>
             <div className="polarChart">
                 {topGenres ? < PolarArea
@@ -63,7 +63,19 @@ const TopGenres = ({ spotifyApi }) => {
                         }
                     }
                     options={{
-                        maintainAspectRatio: false
+                        maintainAspectRatio: false,
+                        // tooltips: {
+                        //     callbacks: {
+                        //         label: function (tooltipItem, data) {
+                        //             var dataset = data.datasets[tooltipItem.datasetIndex];
+                        //             var meta = dataset._meta[Object.keys(dataset._meta)[0]];
+                        //             var total = meta.total;
+                        //             var currentValue = dataset.data[tooltipItem.index];
+                        //             var percentage = parseFloat((currentValue / total * 100).toFixed(1));
+                        //             return currentValue + ' (' + percentage + '%)';
+                        //         }
+                        //     }
+                        // }
                     }}
                     height={400}
                     width={300}

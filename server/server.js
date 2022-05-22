@@ -40,7 +40,6 @@ app.post("/login", (req, res) => {
     clientId: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
   });
-
   spotifyApi
     .authorizationCodeGrant(code)
     .then((data) => {
@@ -52,14 +51,15 @@ app.post("/login", (req, res) => {
     })
     .catch((err) => {
       res.sendStatus(400);
+      console.log(err);
     });
 });
 
-app.get("/lyrics", async (req, res) => {
-  const lyrics =
-    (await lyricsFinder(req.query.artist, req.query.track)) ||
-    "No Lyrics Found";
-  res.json({ lyrics });
-});
+// app.get("/lyrics", async (req, res) => {
+//   const lyrics =
+//     (await lyricsFinder(req.query.artist, req.query.track)) ||
+//     "No Lyrics Found";
+//   res.json({ lyrics });
+// });
 
 app.listen(3001);
