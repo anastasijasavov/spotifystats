@@ -1,18 +1,18 @@
-import CurrentTrack from "../CurrentTrack/CurrentTrack";
-// import SpotifyWebApi from "spotify-web-api-node";
-// import { useRef, useState } from "react";
-// import { useEffect, useMemo } from "react";
 
+import CurrentTrack from "../CurrentTrack/CurrentTrack";
+import TopArtists from "../TopArtists/TopArtists";
 import './maintest.scss';
 // import { Track } from "../../models/Track";
-
+import { Scrobbles } from "../scrobbles/Scrobbles";
 export default function Main({ spotifyApi, trackData }) {
-
-
   return (
     <>
       <div className="body">
         <CurrentTrack spotifyApi={spotifyApi} sendData={trackData} />
+        <div className="main-body">
+          <Scrobbles />
+          <TopArtists spotifyApi={spotifyApi} />
+        </div>
       </div>
     </>
   );

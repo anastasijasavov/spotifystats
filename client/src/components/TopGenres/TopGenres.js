@@ -9,6 +9,7 @@ import {
     Tooltip,
     Legend
 } from "chart.js";
+import { Typography } from "@mui/material";
 ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
 
 const TopGenres = ({ spotifyApi }) => {
@@ -41,7 +42,7 @@ const TopGenres = ({ spotifyApi }) => {
 
     return (
         <div className="top-genres">
-            <h3>Top genres</h3>
+            <Typography variant="h3">Top genres</Typography>
             <div className="polarChart">
                 {topGenres ? < PolarArea
                     data={
@@ -52,11 +53,11 @@ const TopGenres = ({ spotifyApi }) => {
                                 data: numbers,
 
                                 backgroundColor: [
-                                    'rgba(255, 99, 132, 0.5)',
-                                    'rgba(54, 162, 235, 0.5)',
-                                    'rgba(255, 206, 86, 0.5)',
-                                    'rgba(75, 192, 192, 0.5)',
-                                    'rgba(153, 102, 255, 0.5)',
+                                    '#4F0039',
+                                    '#99DA81',
+                                    '#CC5669',
+                                    '#4B9F2C',
+                                    '#B03044',
                                 ],
                             }],
                             borderWidth: 1,

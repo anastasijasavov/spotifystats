@@ -5,10 +5,11 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { GridActionsCellItem } from "@mui/x-data-grid-pro";
 import "./scrobbles.scss";
 import Tooltip from '@mui/material/Tooltip';
+import { Typography } from "@mui/material";
 
 const userID = localStorage.getItem("userID");
 
-export function Scrobbles({ track }) {
+export function Scrobbles() {
   const [rows, setRows] = useState([]);
   const [pageSize, setPageSize] = useState(5)
   // const [timeAgo, setTimeAgo] = useState(0);
@@ -95,7 +96,7 @@ export function Scrobbles({ track }) {
   //console.log("rows", rows);
   return (
     <div className="scrobbles">
-      <h3>Listening history</h3>
+      <Typography variant="h3">Listening history</Typography>
       <div className="grid">
         <DataGrid
           columns={columns}

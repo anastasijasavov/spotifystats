@@ -8,22 +8,28 @@
     .topTracks-card {
         width: 50vw;
         height: 400px;
+
+        h3 {
+            margin: 2vh 0 2vh 0;
+        }
     }
 }
 
 .card {
     margin: 7vh 0 0 5vw;
+    text-align: justify;
+    padding: 1em;
+    font-size: 16px;
 
     .report-body span {
         font-weight: bold;
-        font-size: 16px;
+        font-size: 17px;
     }
 
 }
 
-h3 {
+h3 .h3 {
     margin: 7vh 0 3vh 2vw;
-    font-family: 'Fira Code', monospace;
     color: #9e9e9e;
 }
 

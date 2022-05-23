@@ -37,24 +37,15 @@ export function getSavedTracks(off, spotifyApi, limit) {
 }
 
 
-// export function getTopArtists(spotifyApi) {
-//     return spotifyApi.getMyTopArtists()
-//         .then(function (data) {
-//             return data.body.items;
-//         }, function (err) {
-//             console.log('Something went wrong!', err);
-//         });
-// }
-
-// function getTopArtistsIDs(spotifyApi) {
-//     return spotifyApi.getMyTopArtists()
-//         .then(function (data) {
-//             console.log("get top artists ids function returns: ", data.body.items);
-//             return data.body.items.map(artist => artist.id);
-//         }, function (err) {
-//             console.log('Something went wrong!', err);
-//         });
-// }
+export function getTopArtists(spotifyApi) {
+    return spotifyApi.getMyTopArtists()
+        .then(function (data) {
+            console.log(data.body.items);
+            return data.body.items;
+        }, function (err) {
+            console.log('Something went wrong!', err);
+        });
+}
 
 export function getGenreGroups(genresArr) {
     let genreGroup = [];

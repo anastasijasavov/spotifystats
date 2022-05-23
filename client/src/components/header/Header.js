@@ -91,7 +91,7 @@ export default function Header({ spotifyApi }) {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" sx={{ backgroundColor: "#623c96" }}>
+            <AppBar position="static" sx={{ backgroundColor: "#332E43" }}>
                 <Toolbar>
                     <div className='links'>
                         <Link to="/" className="links">Home</Link>

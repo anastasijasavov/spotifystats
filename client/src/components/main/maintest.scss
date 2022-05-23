@@ -1,3 +1,11 @@
 .body {
     margin: 30px;
 }
+
+.main-body {
+    flex-wrap: wrap;
+    display: flex;
+    /* flex-wrap: nowrap; */
+    justify-content: flex-start;
+    flex-direction: row;
+}

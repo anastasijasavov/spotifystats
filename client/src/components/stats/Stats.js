@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import "./stats.scss";
 import Report from "./Report";
 import TopGenres from "../TopGenres/TopGenres";
+import { Typography } from "@mui/material";
 
 async function getScrobbles(userID) {
     return await getTopScrobbles(userID);
@@ -23,8 +24,6 @@ export function Stats({ spotifyApi }) {
         }
     }, [])
 
-
-
     // console.log("top 10 scrobbles all time: ", groups);
     const columns = [
         { field: "name", headerName: "Name", flex: 1 },
@@ -36,7 +35,7 @@ export function Stats({ spotifyApi }) {
             <div className="upperBody">
                 <div className="topTracks">
                     <div className="topTracks-card">
-                        <h3>Top tracks: </h3>
+                        <Typography variant="h3">Top tracks: </Typography>
                         <DataGrid
                             rows={rows}
                             columns={columns}

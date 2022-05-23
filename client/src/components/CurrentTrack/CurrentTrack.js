@@ -15,11 +15,11 @@ export default function CurrentTrack({ spotifyApi, sendData }) {
 
     const [isSaved, setIsSaved] = useState(false);
 
-    if (sendData.track === "undefined" || sendData.track == null) {
-        console.log("data is empty, returning only scrobbles");
-        return <><Scrobbles currentTrack={sendData.track} /></>;
-    }
-    if (sendData.track.album) {
+    // if (sendData.track === "undefined" || sendData.track == null) {
+    //     console.log("data is empty, returning only scrobbles");
+    //     return <><Scrobbles currentTrack={sendData.track} /></>;
+    // }
+    if (sendData.track) {
         return (
             <>
                 <div className="curr-track-card">
@@ -65,7 +65,6 @@ export default function CurrentTrack({ spotifyApi, sendData }) {
 
                     </Card>
                 </div>
-                <Scrobbles currentTrack={sendData.track} />
 
             </>
         );

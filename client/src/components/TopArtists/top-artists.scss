@@ -1,0 +1,51 @@
+.top-artists {
+    margin: 2vh 0 0 5vw;
+    width: 50%;
+    max-width: 486px;
+
+
+    .parent {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        grid-column-gap: 3px;
+        grid-row-gap: 3px;
+        max-width: 100%;
+        margin: 2vh;
+
+        .child {
+            position: relative;
+            text-align: center;
+            color: white;
+
+
+            a h4 {
+                visibility: hidden;
+                color: white;
+                z-index: 1;
+                position: absolute;
+                transform: translate(-50%, -50%);
+                top: 50%;
+                left: 50%;
+
+                &:hover {
+                    visibility: visible;
+                    cursor: pointer;
+                }
+            }
+
+            img {
+                z-index: -1;
+                cursor: pointer;
+                width: 160px;
+                height: 160px;
+                object-fit: cover;
+
+                &:hover+a h4 {
+                    visibility: visible;
+                }
+            }
+        }
+
+    }
+}
