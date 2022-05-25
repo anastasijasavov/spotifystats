@@ -24,7 +24,7 @@ export default function Report() {
 
                 <CardContent>
 
-                    <Typography variant="h4" color="text.secondary" gutterBottom fontFamily={"Fira Code, monospace"}>
+                    <Typography variant="h3" color="text.secondary" gutterBottom >
                         Your song analysis report
                     </Typography>
                     <Typography variant="body2" className="report-body">

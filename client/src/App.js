@@ -4,22 +4,23 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Stats } from "./components/Stats/Stats";
 import Main from "./components/main/Main";
 import Header from "./components/header/Header";
-// import Tab from '@mui/material/Tab';
+import { SongAnalysis } from "./components/Stats/SongAnalysis/SongAnalysis";
 import { useState, useMemo, useEffect } from "react";
 import SpotifyWebApi from "spotify-web-api-node";
 import useAuth from "./useAuth";
 import { Track } from "./models/Track"
 import { saveUser } from "./utils/http-requests";
 import { saveScrobble } from "./utils/http-requests";
-
+import NotificationCard from "./components/NotificationCard/NotificationCard";
 
 let code = new URLSearchParams(window.location.search).get("code");
 function App() {
   const spotifyApi = useMemo(() => new SpotifyWebApi({ clientId: "0cc65edbfc7649b087b605c605e9aade" }), []);
   const [isSaved, setIsSaved] = useState(false);
-  const [data, setData] = useState({})
+  const [data, setData] = useState({});
   const [track, setTrack] = useState(new Track());
-  const [songPlayedAt, setSongPlayedAt] = useState(0);
+  const [prevTrack, setPrevTrack] = useState(new Track());
+  const [saved, setSaved] = useState(false);
 
   function SetToken(code) {
     const accessToken = useAuth(code);
@@ -35,7 +36,7 @@ function App() {
   function sendData() {
     setData({
       isSaved: isSaved,
-      track: track,
+      track: prevTrack,
     });
   }
   useEffect(() => {
@@ -56,7 +57,7 @@ function App() {
 
   useEffect(() => {
     const accessToken = window.localStorage.getItem("accessToken");
-
+    let scrobble;
     if (!accessToken) return;
 
     const interval = setInterval(() => {
@@ -66,18 +67,18 @@ function App() {
           if (data.body == null || !data.body.is_playing) { return; }
 
           if (track.id === "undefined" || data.body.item.id !== track.id) {
-            console.log("namestanje pocetka pesme");
-            setSongPlayedAt(data.body.timestamp);
+            scrobble = new Track(
+              data.body.item.id,
+              data.body.item.name,
+              data.body.item.artists[0].name,
+              data.body.item.duration_ms,
+              data.body.timestamp,
+              data.body.item.album.images[1].url
+            );
+            setPrevTrack(scrobble);
+            console.log("namestanje pocetka pesme, id: ", data.body.item.id);
           }
 
-          const scrobble = new Track(
-            data.body.item.id,
-            data.body.item.name,
-            data.body.item.artists[0].name,
-            data.body.item.duration_ms,
-            data.body.timestamp,
-            data.body.item.album.images[1].url
-          );
           spotifyApi.containsMySavedTracks([data.body.item.id]).then(
             function (data) {
               if (data.body == null) setIsSaved(false);
@@ -99,15 +100,14 @@ function App() {
             }
           );
 
-          setTrack(scrobble);
+
           sendData();
-          var now = new Date().getTime();
-          let progressRatio = (now - songPlayedAt) / data.body.progress_ms;
+          // var now = new Date().getTime();
+          let progressRatio = data.body.progress_ms / data.body.item.duration_ms;
 
           console.log(progressRatio);
           if (
-            (data.body.item.id !== track.id && progressRatio > 0.6 &&
-              (now - songPlayedAt) / data.body.progress_ms > 0.7) ||
+            (prevTrack.id !== track.id && progressRatio > 0.6) ||
             (track.id === "undefined")
           ) {
 
@@ -118,14 +118,11 @@ function App() {
             console.log(" track progress:", data.body.progress_ms);
             console.log("api track duration:", data.body.item.duration_ms);
 
-            // console.log("ratio:", progressRatio);
-
             // if (progressRatio > 0.6) {
             console.log("song is being saved");
             saveScrobble(scrobble, window.localStorage.getItem("userID"));
-
-            // }
-
+            setSaved(true);
+            setTrack(prevTrack);
 
           }
 
@@ -141,7 +138,7 @@ function App() {
           console.log("Refreshing the token...", err);
         }
       );
-
+      setSaved(false);
     }, [5000]);
 
     return () => {
@@ -165,10 +162,11 @@ function App() {
       <Router>
         <div style={{ /*backgroundColor: "#121212" */ }}>
           <Header spotifyApi={spotifyApi} />
+          {saved ? <NotificationCard message={`${prevTrack.name} is succesfully saved!`} /> : null}
           <Routes>
             <Route path="/" element={<Main spotifyApi={spotifyApi} trackData={data} />}></Route>
             <Route path="/stats" element={<Stats spotifyApi={spotifyApi} />}></Route>
-            <Route path="/me" element={<h2>Me</h2>}></Route>
+            <Route path="/stats/:id" element={<SongAnalysis />}></Route>
           </Routes>
         </div>
       </Router>

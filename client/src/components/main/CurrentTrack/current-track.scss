@@ -1,8 +1,14 @@
 .curr-track-card {
     width: 35%;
     min-width: 350px;
+
+    img {
+        width: 160px;
+        object-fit: cover;
+    }
 }
 
 .heart-btn {
     cursor: pointer;
+    margin: 0 0 0 1vw;
 }

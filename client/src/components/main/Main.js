@@ -1,9 +1,10 @@
 
-import CurrentTrack from "../CurrentTrack/CurrentTrack";
-import TopArtists from "../TopArtists/TopArtists";
+import CurrentTrack from "./CurrentTrack/CurrentTrack";
+import TopArtists from "./TopArtists/TopArtists";
 import './maintest.scss';
-// import { Track } from "../../models/Track";
-import { Scrobbles } from "../scrobbles/Scrobbles";
+import { Scrobbles } from "./scrobbles/Scrobbles";
+
+
 export default function Main({ spotifyApi, trackData }) {
   return (
     <>

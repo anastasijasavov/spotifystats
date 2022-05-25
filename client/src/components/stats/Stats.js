@@ -3,7 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useState, useEffect } from "react"
 import "./stats.scss";
 import Report from "./Report";
-import TopGenres from "../TopGenres/TopGenres";
+import TopGenres from "./TopGenres/TopGenres";
 import { Typography } from "@mui/material";
 
 async function getScrobbles(userID) {
@@ -45,8 +45,6 @@ export function Stats({ spotifyApi }) {
                         />
                     </div>
                 </div>
-
-
                 <TopGenres spotifyApi={spotifyApi} />
             </div>
             <Report />

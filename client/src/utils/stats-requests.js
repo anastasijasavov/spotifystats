@@ -28,7 +28,21 @@ export function getTopScrobbles(userID) {
     });
 
 }
+export async function analyzeSong(id) {
 
+    const token = window.localStorage.getItem("accessToken");
+    const url = "https://api.spotify.com/v1/audio-features";
+
+    const res = axios.get(`${url}/${id}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    });
+
+    console.log(res);
+
+}
 export async function analyzeSongs() {
 
     const topSongCount = 10;

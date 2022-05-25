@@ -1,5 +1,5 @@
 import "./top-genres.scss";
-import { getGenreGroups } from "../../utils/spotifyService";
+import { getGenreGroups } from "../../../utils/spotifyService";
 import { useState, useEffect } from "react";
 import React from 'react'
 import { PolarArea } from 'react-chartjs-2';
@@ -53,11 +53,11 @@ const TopGenres = ({ spotifyApi }) => {
                                 data: numbers,
 
                                 backgroundColor: [
-                                    '#4F0039',
+                                    '#332E43',
                                     '#99DA81',
                                     '#CC5669',
                                     '#4B9F2C',
-                                    '#B03044',
+                                    '#EBC77F',
                                 ],
                             }],
                             borderWidth: 1,

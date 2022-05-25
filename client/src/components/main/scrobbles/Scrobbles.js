@@ -1,4 +1,4 @@
-import { getMyScrobbles, removeScrobble } from "../../utils/http-requests";
+import { getMyScrobbles, removeScrobble } from "../../../utils/http-requests";
 import { DataGrid } from "@mui/x-data-grid";
 import { useState, useEffect } from "react";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -57,13 +57,13 @@ export function Scrobbles() {
             timeAgo = (today - track.track.scrobble_id) / 60000;
             // console.table(timeAgo, today, track.track.scrobble_id);
             timeUnit = "min";
-            if (timeAgo > 60) {
+            if (timeAgo >= 60) {
               timeAgo /= 60;
               timeUnit = "h";
-              if (timeAgo > 24) {
+              if (timeAgo >= 24) {
                 timeAgo /= 24;
                 timeUnit = "d";
-                if (timeAgo > 30) {
+                if (timeAgo >= 30) {
                   timeAgo /= 30;
                   timeUnit = "m";
                   if (timeAgo > 12) {

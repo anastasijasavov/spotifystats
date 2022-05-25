@@ -8,7 +8,6 @@ import { useState } from "react";
 import Tooltip from '@mui/material/Tooltip';
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { Scrobbles } from "../scrobbles/Scrobbles";
 import "./current-track.scss";
 
 export default function CurrentTrack({ spotifyApi, sendData }) {
@@ -26,7 +25,7 @@ export default function CurrentTrack({ spotifyApi, sendData }) {
                     <Card sx={{ display: 'flex' }}>
                         <CardMedia
                             component="img"
-                            sx={{ width: 151 }}
+
                             image={sendData.track.album}
                             alt="album cover"
                         />
