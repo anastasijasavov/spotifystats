@@ -54,6 +54,7 @@ export async function analyzeSongs() {
     tracks.slice(0, topSongCount).forEach(track => {
         trackIDs += `${track.id},`;
     });
+    console.log("analyze song ", tracks);
     trackIDs = encodeURIComponent(trackIDs.substring(0, trackIDs.length - 1));
 
     const songsData = axios.get(`https://api.spotify.com/v1/audio-features?ids=${trackIDs}`,
@@ -64,7 +65,7 @@ export async function analyzeSongs() {
             }
         }
     ).then(res => {
-
+        console.log("res from api", res);
         let averageSong = {
             acousticness: 0,
             loudness: 0,
@@ -78,7 +79,7 @@ export async function analyzeSongs() {
             duration: 0
         };
         let totalWeight = 0;
-        for (let index = 0; index < topSongCount; index++) {
+        for (let index = 0; index < Object.keys(res.data.audio_features).length; index++) {
 
             const songCount = tracks[index].count;
             const track = res.data.audio_features[index];
