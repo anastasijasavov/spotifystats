@@ -2,7 +2,7 @@
     width: 60%;
     max-width: 40vw;
     display: flex;
-    margin: 0 0 0 5vw;
+    // margin: 0 0 0 5vw;
     // color: black;
 
     .topTracks-card {
@@ -37,7 +37,7 @@ h3 .h3 {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
+    justify-content: center;
     align-content: flex-start;
-    justify-content: flex-start;
     margin: 2vh 0 0 0;
 }

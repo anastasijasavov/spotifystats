@@ -36,7 +36,6 @@ export function getSavedTracks(off, spotifyApi, limit) {
         );
 }
 
-
 export function getTopArtists(spotifyApi) {
     return spotifyApi.getMyTopArtists()
         .then(function (data) {
@@ -80,4 +79,27 @@ export function getTopGenres(spotifyApi) {
         console.log('Something went wrong!', err);
     });
 
+}
+export function checkIfSaved(spotifyApi, id) {
+    return spotifyApi.containsMySavedTracks([id]).then(
+        function (data) {
+            if (data.body == null) return false;
+            // An array is returned, where the first element corresponds to the first track ID in the query
+            var trackIsInYourMusic = data.body[0];
+            if (trackIsInYourMusic) {
+                console.log("song is in liked songs");
+                return true;
+            } else {
+                console.log("song isnt in the liked songs");
+                return false;
+            }
+        },
+        function (err) {
+            console.log(
+                "Something went wrong with checking whether the current song is saved!",
+                err
+            );
+            return false;
+        }
+    );
 }

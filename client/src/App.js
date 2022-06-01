@@ -7,6 +7,7 @@ import Header from "./components/header/Header";
 import { SongAnalysis } from "./components/Stats/SongAnalysis/SongAnalysis";
 import { useState, useMemo, useEffect } from "react";
 import SpotifyWebApi from "spotify-web-api-node";
+import { checkIfSaved } from "./utils/spotifyService";
 import useAuth from "./useAuth";
 import { Track } from "./models/Track"
 import { saveUser } from "./utils/http-requests";
@@ -22,6 +23,10 @@ function App() {
   const [prevTrack, setPrevTrack] = useState(new Track());
   const [saved, setSaved] = useState(false);
 
+  async function checkSaved(id) {
+    setIsSaved(await checkIfSaved(spotifyApi, id));
+  }
+
   function SetToken(code) {
     const accessToken = useAuth(code);
     spotifyApi.setAccessToken(accessToken);
@@ -36,6 +41,7 @@ function App() {
       track: prevTrack,
     });
   }
+
   useEffect(() => {
     const accessToken = window.localStorage.getItem("accessToken");
     if (accessToken) {
@@ -64,28 +70,9 @@ function App() {
           if (data.body == null || !data.body.is_playing) { return; }
 
           if (track.id === "undefined" || data.body.item.id !== track.id) {
-            spotifyApi.containsMySavedTracks([data.body.item.id]).then(
-              function (data) {
-                if (data.body == null) setIsSaved(false);
-                // An array is returned, where the first element corresponds to the first track ID in the query
-                var trackIsInYourMusic = data.body[0];
 
-                if (trackIsInYourMusic) {
-                  console.log("song is in liked songs");
-                  setIsSaved(true);
-                } else {
-                  console.log("song isnt in the liked songs");
-                  setIsSaved(false);
-                }
-              },
-              function (err) {
-                console.log(
-                  "Something went wrong with checking whether the current song is saved!",
-                  err
-                );
-                setIsSaved(false);
-              }
-            );
+            (checkSaved(data.body.item.id));
+
             scrobble = new Track(
               data.body.item.id,
               data.body.item.name,
@@ -95,7 +82,6 @@ function App() {
               data.body.item.album.images[1].url
             );
             setPrevTrack(scrobble);
-            console.log("namestanje pocetka pesme, id: ", data.body.item.id);
             sendData();
           }
 
@@ -163,7 +149,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Main spotifyApi={spotifyApi} trackData={data} />}></Route>
             <Route path="/stats" element={<Stats spotifyApi={spotifyApi} />}></Route>
-            <Route path="/stats/:id" element={<SongAnalysis />}></Route>
+            <Route path="/stats/:id" element={<SongAnalysis spotifyApi={spotifyApi} />}></Route>
           </Routes>
         </div>
       </Router>

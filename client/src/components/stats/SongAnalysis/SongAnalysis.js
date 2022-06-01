@@ -2,40 +2,73 @@ import React from 'react'
 import { analyzeSong, getTrackById } from '../../../utils/stats-requests'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { checkIfSaved } from '../../../utils/spotifyService'
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import "./search-result.scss";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import Tooltip from '@mui/material/Tooltip';
+import { Track } from "../../../models/Track";
 
-export function SongAnalysis() {
+export function SongAnalysis({ spotifyApi }) {
 
     const params = useParams();
     const [report, setReport] = useState({})
     const [track, setTrack] = useState({})
+    const [saved, setSaved] = useState(false);
 
     const getAnalyzeSongRes = async () => {
         setReport(await analyzeSong(params.id));
     }
 
+    const getIfSaved = async () => {
+        setSaved(await checkIfSaved(spotifyApi, params.id));
+    }
+
+    function convertToTrack(data) {
+        return new Track(params.id, null, null, null, null, null);
+    }
     useEffect(() => {
+
         getAnalyzeSongRes();
         getTrackById(params.id).then(res => setTrack(res));
-        console.log(track);
+        getIfSaved();
+
         return () => {
             setReport({})
+            setSaved(false);
         }
     }, [params.id])
+
     if (report && Object.keys(track).length !== 0) {
         return (
             <>
                 <div className="body">
-                    <div className="track">
+                    <div className="track-info">
                         <h3>{track.name}</h3>
                         <img src={track.album.images[0].url} alt="" />
-                        <h3>{track.artists[0].name}</h3>
+                        <h3>by {track.artists[0].name}</h3>
                         <a href={track.external_urls.spotify}>Go to spotify</a>
+
+                        <div className="saveBtn">
+                            {saved ? <Tooltip title="unsave from spotify">
+                                <FavoriteIcon onClick={() => {
+                                    new Track(params.id, null, null, null, null, null).unsaveFromSpotify(spotifyApi);
+                                    setSaved(false);
+                                }} />
+                            </Tooltip> :
+                                <Tooltip title="save to spotify">
+                                    <FavoriteBorderIcon onClick={() => {
+                                        new Track(params.id, null, null, null, null, null).saveToSpotify(spotifyApi);
+                                        setSaved(true);
+                                    }} />
+                                </Tooltip>
+                            }
+                        </div>
                     </div>
-                    <Card sx={{ minWidth: 275, maxWidth: 500 }} className="card">
+                    <Card sx={{ minWidth: 275, maxWidth: 500 }} className="track-report card">
 
                         <Typography variant="h3" color="text.secondary" gutterBottom >
                             Song analysis report

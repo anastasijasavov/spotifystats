@@ -1,7 +1,6 @@
 import axios from "axios";
 import { getMyScrobbles } from "./http-requests";
 
-
 export function getTopScrobbles(userID) {
     let groups = [];
     return getMyScrobbles(userID).then(tracks => {
@@ -113,8 +112,6 @@ export async function analyzeSongs() {
     return await songsData;
 
 }
-
-
 export async function getTrackById(id) {
 
     let url = "https://api.spotify.com/v1/tracks"
