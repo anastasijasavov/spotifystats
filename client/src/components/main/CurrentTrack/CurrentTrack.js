@@ -4,7 +4,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Tooltip from '@mui/material/Tooltip';
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -14,11 +14,17 @@ export default function CurrentTrack({ spotifyApi, sendData }) {
 
     const [isSaved, setIsSaved] = useState(false);
 
-    // if (sendData.track === "undefined" || sendData.track == null) {
+    useEffect(() => {
+        setIsSaved(sendData.isSaved);
+        console.log("the song is saved? ", sendData.isSaved);
+    }, [sendData.track])
+
+
+
     //     console.log("data is empty, returning only scrobbles");
     //     return <><Scrobbles currentTrack={sendData.track} /></>;
     // }
-    if (sendData.track) {
+    if (sendData.track != null) {
         return (
             <>
                 <div className="curr-track-card">
@@ -43,7 +49,7 @@ export default function CurrentTrack({ spotifyApi, sendData }) {
                             </CardContent>
                             <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }} className="heart-btn">
 
-                                {sendData.track.id !== undefined ? (!sendData.isSaved ? (
+                                {sendData.track.id !== undefined ? (!isSaved ? (
                                     <Tooltip title="save to spotify">
                                         <FavoriteBorderIcon onClick={() => {
                                             sendData.track.saveToSpotify(spotifyApi);

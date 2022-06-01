@@ -1,5 +1,4 @@
 
-let id, name, artrist, duration, timestamp, album;
 export class Track {
   constructor(id, name, artist, duration, timestamp, album) {
     this.id = id;

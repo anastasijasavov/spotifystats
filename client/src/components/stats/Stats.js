@@ -22,7 +22,7 @@ export function Stats({ spotifyApi }) {
         return () => {
             setRows([])
         }
-    }, [])
+    }, [userID])
 
     // console.log("top 10 scrobbles all time: ", groups);
     const columns = [

@@ -5,18 +5,17 @@ import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import Grid from '@mui/material/Grid';
-import { styled } from '@mui/material/styles';
+// import { styled } from '@mui/material/styles';
 import "./header.scss";
 import { useNavigate } from "react-router-dom";
 
-const Demo = styled('div')(({ theme }) => ({
-  backgroundColor: theme.palette.background.paper,
-}));
+// const Demo = styled('div')(({ theme }) => ({
+//   backgroundColor: theme.palette.background.paper,
+// }));
 
 
-export default function TrackSearchResult({ track }) {
+export default function TrackSearchResult({ track, clearSearch }) {
   const navigate = useNavigate();
-
   function navigateToSongAnalysis(id) {
     navigate(`/stats/${id}`);
   }
@@ -39,7 +38,11 @@ export default function TrackSearchResult({ track }) {
 
         <Grid item xs={12} md={6}>
           <List dense={false}>
-            <ListItem key={track.id} onClick={() => navigateToSongAnalysis(track.id)}>
+            <ListItem key={track.id} onClick={() => {
+              // window.localStorage.setItem("track", { 'url': track.albumUrl, 'name': track.title, 'artist': track.artist });
+              navigateToSongAnalysis(track.id);
+              clearSearch = true;
+            }}>
               <ListItemAvatar>
                 <img src={track.albumUrl} alt="" />
               </ListItemAvatar>

@@ -12,7 +12,6 @@ import TrackSearchResult from "./TrackSearchResult";
 import "./header.scss";
 import { useState, useEffect } from "react";
 import Tooltip from '@mui/material/Tooltip';
-import { useNavigate } from "react-router-dom";
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -59,7 +58,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function Header({ spotifyApi }) {
     const [search, setSearch] = useState("");
     const [searchResults, setSearchResults] = useState([]);
-
 
     useEffect(() => {
         if (!search) return setSearchResults([]);
@@ -123,7 +121,7 @@ export default function Header({ spotifyApi }) {
             </AppBar>
             <div className="search">
                 {searchResults.slice(0, 5).map((track) => (
-                    <TrackSearchResult track={track} key={track.uri} />
+                    <TrackSearchResult track={track} key={track.uri} clearSearch={(isClear) => { isClear ? setSearch("") : <></> }} />
                 ))}
             </div>
         </Box >

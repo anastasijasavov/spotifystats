@@ -14,16 +14,21 @@ export default function NotificationCard({ message }) {
         vertical: 'top',
         horizontal: 'right',
     });
-    const { vertical, horizontal, open } = state;
-    useEffect(() => {
+    const { vertical, horizontal } = state;
+    const handleOpen = () => {
         setState({
             open: true,
             ...state
         });
+    };
+    useEffect(() => {
+        handleOpen();
+
         return () => {
-            setState({});
+            setState({})
         }
-    }, []);
+    }, [])
+
 
     const handleClose = () => {
         setState({

@@ -29,10 +29,7 @@ function App() {
     window.localStorage.setItem("accessToken", accessToken);
     return <></>;
   }
-  // const [value, setValue] = useState(0);
-  // const handleChange = (event, newValue) => {
-  //   setValue(newValue);
-  // };
+
   function sendData() {
     setData({
       isSaved: isSaved,
@@ -67,6 +64,28 @@ function App() {
           if (data.body == null || !data.body.is_playing) { return; }
 
           if (track.id === "undefined" || data.body.item.id !== track.id) {
+            spotifyApi.containsMySavedTracks([data.body.item.id]).then(
+              function (data) {
+                if (data.body == null) setIsSaved(false);
+                // An array is returned, where the first element corresponds to the first track ID in the query
+                var trackIsInYourMusic = data.body[0];
+
+                if (trackIsInYourMusic) {
+                  console.log("song is in liked songs");
+                  setIsSaved(true);
+                } else {
+                  console.log("song isnt in the liked songs");
+                  setIsSaved(false);
+                }
+              },
+              function (err) {
+                console.log(
+                  "Something went wrong with checking whether the current song is saved!",
+                  err
+                );
+                setIsSaved(false);
+              }
+            );
             scrobble = new Track(
               data.body.item.id,
               data.body.item.name,
@@ -77,31 +96,9 @@ function App() {
             );
             setPrevTrack(scrobble);
             console.log("namestanje pocetka pesme, id: ", data.body.item.id);
+            sendData();
           }
 
-          spotifyApi.containsMySavedTracks([data.body.item.id]).then(
-            function (data) {
-              if (data.body == null) setIsSaved(false);
-              // An array is returned, where the first element corresponds to the first track ID in the query
-              var trackIsInYourMusic = data.body[0];
-
-              if (trackIsInYourMusic) {
-                setIsSaved(true);
-              } else {
-                setIsSaved(false);
-              }
-            },
-            function (err) {
-              console.log(
-                "Something went wrong with checking whether the current song is saved!",
-                err
-              );
-              setIsSaved(false);
-            }
-          );
-
-
-          sendData();
           // var now = new Date().getTime();
           let progressRatio = data.body.progress_ms / data.body.item.duration_ms;
 
@@ -118,8 +115,6 @@ function App() {
             console.log(" track progress:", data.body.progress_ms);
             console.log("api track duration:", data.body.item.duration_ms);
 
-            // if (progressRatio > 0.6) {
-            console.log("song is being saved");
             saveScrobble(scrobble, window.localStorage.getItem("userID"));
             setSaved(true);
             setTrack(prevTrack);
@@ -146,11 +141,13 @@ function App() {
     }
 
   });
-  if (code != null) {
+  const token = window.localStorage.getItem("accessToken")
+
+  if (code) {
+    console.log("trying to set the token");
     SetToken(code);
   }
 
-  const token = window.localStorage.getItem("accessToken")
   if (token == null || token === "undefined")
     return <Login />;
 

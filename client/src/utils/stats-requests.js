@@ -2,9 +2,6 @@ import axios from "axios";
 import { getMyScrobbles } from "./http-requests";
 
 
-export function recommendPlaylist() {
-
-}
 export function getTopScrobbles(userID) {
     let groups = [];
     return getMyScrobbles(userID).then(tracks => {
@@ -32,16 +29,17 @@ export async function analyzeSong(id) {
 
     const token = window.localStorage.getItem("accessToken");
     const url = "https://api.spotify.com/v1/audio-features";
+    let result;
+    console.log(id);
 
-    const res = axios.get(`${url}/${id}`, {
+    result = await axios.get(`${url}/${id}`, {
         headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
         }
-    });
+    }).catch(err => console.log(err.message));
 
-    console.log(res);
-
+    return result.data;
 }
 export async function analyzeSongs() {
 
@@ -54,7 +52,6 @@ export async function analyzeSongs() {
     tracks.slice(0, topSongCount).forEach(track => {
         trackIDs += `${track.id},`;
     });
-    console.log("analyze song ", tracks);
     trackIDs = encodeURIComponent(trackIDs.substring(0, trackIDs.length - 1));
 
     const songsData = axios.get(`https://api.spotify.com/v1/audio-features?ids=${trackIDs}`,
@@ -65,7 +62,6 @@ export async function analyzeSongs() {
             }
         }
     ).then(res => {
-        console.log("res from api", res);
         let averageSong = {
             acousticness: 0,
             loudness: 0,
@@ -116,4 +112,20 @@ export async function analyzeSongs() {
 
     return await songsData;
 
+}
+
+
+export async function getTrackById(id) {
+
+    let url = "https://api.spotify.com/v1/tracks"
+    const token = window.localStorage.getItem("accessToken");
+
+    let result = await axios.get(`${url}/${id}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    }).catch(err => console.log(err.message));
+    console.log(result.data);
+    return result.data;
 }
