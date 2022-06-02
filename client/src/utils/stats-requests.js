@@ -6,6 +6,7 @@ export function getTopScrobbles(userID) {
     return getMyScrobbles(userID).then(tracks => {
         for (let index = 0; index < tracks.length; index++) {
             const element = tracks[index];
+
             var foundIndex = groups.findIndex(e => e.id === element.track.id)
 
             if (groups.length === 0 || foundIndex === -1) {
@@ -13,13 +14,15 @@ export function getTopScrobbles(userID) {
                     id: element.track.id,
                     name: element.track.name,
                     count: 1,
-                    artist: element.track.artist
+                    artist: element.track.artist,
+                    img: element.track.album
                 };
-                groups.push(dummy)
+                groups.push(dummy);
             }
             else groups[foundIndex].count++;
         }
         groups.sort((a, b) => b.count - a.count);
+
         return groups;
     });
 
@@ -107,7 +110,7 @@ export async function analyzeSongs() {
         averageSongData.push(res.data.audio_features[0]);
         averageSongData.push(averageSong);
         return averageSongData;
-    }).catch(err => console.log(err));
+    }).catch(err => console.log(err.message));
 
     return await songsData;
 

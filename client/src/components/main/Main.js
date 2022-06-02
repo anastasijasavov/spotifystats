@@ -1,7 +1,7 @@
 
 import CurrentTrack from "./CurrentTrack/CurrentTrack";
 import TopArtists from "./TopArtists/TopArtists";
-import './maintest.scss';
+import './main.scss';
 import { Scrobbles } from "./scrobbles/Scrobbles";
 
 

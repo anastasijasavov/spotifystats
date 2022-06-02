@@ -38,7 +38,7 @@ export async function saveUser(id, name) {
 export async function saveScrobble(track, userID) {
   console.log(track.name, userID);
   return await axios
-    .post(`${url}/scrobbles`, { track, userID: userID })
+    .post(`${url}/scrobbles`, { track: { ...track }, userID: userID, album: track.album_id })
     .then(() => {
       console.log("song saved");
     })
@@ -94,3 +94,65 @@ export function authenticateUser() {
     true : console.log("Couldn't authenticate user.");
 }
 
+export async function addAlbumInfo(spotifyApi) {
+
+  let tracks = await axios.get(`${url}/scrobbles`);
+  tracks = tracks.data.slice(10, 25);
+
+  console.log(tracks);
+
+  const trackIDs = tracks.map(track => track.track.id);
+
+  const albumIDs = await spotifyApi.getTracks(trackIDs).then(res => {
+    console.log(res);
+    return res.body.tracks.map(track => track.album.id);
+  });
+
+  console.log(albumIDs);
+  for (let i = 0; i < tracks.length; i++) {
+    let track = tracks[i];
+    let album = albumIDs[i];
+
+    let updatedTrack = { ...track, album: album };
+    console.log(updatedTrack);
+    const response = await axios.patch(`${url}/scrobbles/${track.id}`, updatedTrack);
+    console.log(response);
+  }
+  return true;
+}
+
+export async function getTopAlbums(spotifyApi) {
+  //get albums into groups
+  const userID = getMe();
+
+  let tracks = await axios.get(`${url}/scrobbles?userID=${userID}`);
+  if (tracks) {
+    let albums = tracks.data.map(track => { return { id: track.album, url: track.track.album } });
+    let albumGroups = [{}];
+
+    for (let i = 0; i < albums.length; i++) {
+      let element = albums[i];
+      let found = albumGroups.findIndex(el => el.id === element.id);
+
+      if (found === -1 || Object.keys(albumGroups).length === 0) {
+        albumGroups.push({
+          id: element.id,
+          url: element.url,
+          count: 1
+        })
+      }
+      else {
+        albumGroups[found].count++;
+      }
+
+    }
+    albumGroups.sort((a, b) => b.count - a.count);
+
+    albumGroups = albumGroups.slice(1, 10);
+
+    return albumGroups;
+  }
+
+  //spotifyApi.getAlbums(albums).then(res => console.log(res));
+  //find album info for top 
+}

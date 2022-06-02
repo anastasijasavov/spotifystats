@@ -1,4 +1,4 @@
-import { getMyScrobbles, removeScrobble } from "../../../utils/http-requests";
+import { getMyScrobbles, removeScrobble, getMe } from "../../../utils/http-requests";
 import { DataGrid } from "@mui/x-data-grid";
 import { useState, useEffect } from "react";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -7,11 +7,10 @@ import "./scrobbles.scss";
 import Tooltip from '@mui/material/Tooltip';
 import { Typography } from "@mui/material";
 
-const userID = localStorage.getItem("userID");
 
 export function Scrobbles() {
   const [rows, setRows] = useState([]);
-  const [pageSize, setPageSize] = useState(5)
+  const [pageSize, setPageSize] = useState(5);
   // const [timeAgo, setTimeAgo] = useState(0);
   // const [timeUnit, setTimeUnit] = useState("min");
   const columns = [
@@ -39,11 +38,12 @@ export function Scrobbles() {
       },
     },
   ];
-
+  const getTracks = () => {
+    return getMyScrobbles(getMe());
+  }
   useEffect(() => {
 
-    const scrobbles = getMyScrobbles(userID);
-    //let rows = []
+    const scrobbles = getTracks();
 
     var today = new Date();
     today = today.getTime();
@@ -84,29 +84,27 @@ export function Scrobbles() {
           })
           .reverse()
       );
-
     });
     return () => {
-      // console.log("rows", rows);
+      //console.log("rows", rows);
       setRows([]);
     };
   }, []);
   // if (track) setRows(rows.unshift(track))
-
-  //console.log("rows", rows);
-  return (
-    <div className="scrobbles">
-      <Typography variant="h3">Listening history</Typography>
-      <div className="grid">
-        <DataGrid
-          columns={columns}
-          rows={rows}
-          pageSize={pageSize}
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          rowsPerPageOptions={[5, 10, 20]}
-        />
+  if (rows)
+    return (
+      <div className="scrobbles">
+        <Typography variant="h3">Listening history</Typography>
+        <div className="grid">
+          <DataGrid
+            columns={columns}
+            rows={rows}
+            pageSize={pageSize}
+            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+            rowsPerPageOptions={[5, 10, 20]}
+          />
+        </div>
       </div>
-    </div>
 
-  );
+    );
 }

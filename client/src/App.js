@@ -79,7 +79,8 @@ function App() {
               data.body.item.artists[0].name,
               data.body.item.duration_ms,
               data.body.timestamp,
-              data.body.item.album.images[1].url
+              data.body.item.album.images[1].url,
+              data.body.item.album.id
             );
             setPrevTrack(scrobble);
             sendData();

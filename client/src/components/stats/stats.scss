@@ -9,14 +9,19 @@
         width: 50vw;
         height: 400px;
 
+        canvas {
+            margin-left: -6vw;
+
+        }
+
         h3 {
-            margin: 2vh 0 4vh 0;
+            margin: 2vh 0 0 0;
         }
     }
 }
 
 .card {
-    margin: 7vh 0 0 5vw;
+    margin: 14vh 0 0 5vw;
     text-align: justify;
     padding: 1em;
     font-size: 16px;
@@ -39,5 +44,15 @@ h3 .h3 {
     flex-wrap: nowrap;
     justify-content: center;
     align-content: flex-start;
-    margin: 2vh 0 0 0;
+    margin: 3vh 0 0 0;
+}
+
+.lowerBody {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    max-height: 90vh;
+    width: 80%;
+    margin: -8vh auto auto auto;
+    // margin: auto;
 }

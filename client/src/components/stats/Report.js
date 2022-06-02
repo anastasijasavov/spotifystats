@@ -11,6 +11,7 @@ export default function Report() {
     useEffect(() => {
         analyzeSongs().then(res => {
             setReport(res);
+            console.log(report);
         });
         // console.log(songsReport);
         return () => {

@@ -1,4 +1,3 @@
-
 export function getSavedTracks(off, spotifyApi, limit) {
 
     return spotifyApi
@@ -35,7 +34,6 @@ export function getSavedTracks(off, spotifyApi, limit) {
             }
         );
 }
-
 export function getTopArtists(spotifyApi) {
     return spotifyApi.getMyTopArtists()
         .then(function (data) {
@@ -45,7 +43,6 @@ export function getTopArtists(spotifyApi) {
             console.log('Something went wrong!', err);
         });
 }
-
 export function getGenreGroups(genresArr) {
     let genreGroup = [];
     for (let index = 0; index < genresArr.length; index++) {
@@ -102,4 +99,34 @@ export function checkIfSaved(spotifyApi, id) {
             return false;
         }
     );
+}
+
+export async function getTopAlbums(spotifyApi) {
+    let topAlbums = [];
+    await spotifyApi.getMyTopTracks()
+        .then(function (data) {
+            let topTracks = data.body.items;
+
+            topAlbums = topTracks.map(track => ({
+                id: track.album.id,
+                name: track.album.name,
+                url: track.album.images[0].url
+            }));
+
+            for (let i = 0; i < topAlbums.length; i++) {
+                const album = topAlbums[i];
+                for (let j = i + 1; j < topAlbums.length; j++) {
+                    const album2 = topAlbums[j];
+                    if (album.id === album2.id) {
+                        console.log("found duplicate", album.name);
+                        topAlbums.splice(j, 1, album2);
+                        console.log(topAlbums);
+                    }
+                }
+            }
+            topAlbums = topAlbums.slice(0, 9);
+        }, function (err) {
+            console.log('Something went wrong!', err);
+        });
+    return topAlbums;
 }

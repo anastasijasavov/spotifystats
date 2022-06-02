@@ -27,9 +27,7 @@ export function SongAnalysis({ spotifyApi }) {
         setSaved(await checkIfSaved(spotifyApi, params.id));
     }
 
-    function convertToTrack(data) {
-        return new Track(params.id, null, null, null, null, null);
-    }
+
     useEffect(() => {
 
         getAnalyzeSongRes();
@@ -45,7 +43,7 @@ export function SongAnalysis({ spotifyApi }) {
     if (report && Object.keys(track).length !== 0) {
         return (
             <>
-                <div className="body">
+                <div className="search-res">
                     <div className="track-info">
                         <h3>{track.name}</h3>
                         <img src={track.album.images[0].url} alt="" />

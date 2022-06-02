@@ -1,6 +1,6 @@
 
 export class Track {
-  constructor(id, name, artist, duration, timestamp, album) {
+  constructor(id, name, artist, duration, timestamp, album, album_id) {
     this.id = id;
     this.name = name;
     this.artist = artist;
@@ -9,6 +9,7 @@ export class Track {
     this.scrobble_id = timestamp;
     this.minutes = Math.floor(this.duration / 60000);
     this.seconds = Math.round((this.duration / 1000) % 60);
+    this.album_id = album_id;
   }
 
   saveToSpotify(spotify) {
