@@ -19,9 +19,9 @@ import { getMe } from "../../utils/http-requests";
 ChartJS.register(LinearScale, PointElement, Tooltip, Legend);
 
 const options = {
-    legend: {
-        display: false
-    },
+    // legend: {
+    //     display: false
+    // },
     responsive: true,
     maintainAspectRatio: false,
     scales: {
@@ -35,6 +35,7 @@ const options = {
     },
     plugins: {
         tooltip: {
+
             callbacks: {
                 label: (context) => {
                     return `${context.raw.track} by ${context.raw.artist}`;
@@ -53,15 +54,18 @@ export function Stats({ spotifyApi }) {
 
     const userID = getMe();
     const [rows, setRows] = useState([])
+    const [data, setData] = useState({});
     // const [pageSize, setPageSize] = useState(5)
-
     useEffect(() => {
-        getScrobbles(userID).then(res => setRows(res));
+        getScrobbles(userID).then(res => {
+            setRows(res);
+        });
+
 
         return () => {
-            setRows([])
+            setRows([]);
         }
-    }, [userID])
+    }, [])
 
     // console.log("top 10 scrobbles all time: ", groups);
     // const columns = [
@@ -69,22 +73,11 @@ export function Stats({ spotifyApi }) {
     //     { field: "artist", headerName: "Artist", flex: 1 },
     //     { field: "count", headerName: "Frequency", flex: 1 }
     // ]
-    const data = {
-        datasets: [
-            {
-                data: rows.map((row) => ({
-                    x: Math.random() * 50 - 10,
-                    y: Math.random() * 50 - 10,
-                    r: row.count * 5,
-                    track: row.name,
-                    artist: row.artist,
-                    img: row.img
-                })),
-                backgroundColor: 'rgba(53, 162, 235, 0.5)',
-            },
-        ],
-    };
-    if (rows)
+
+    if (rows) {
+
+
+
         return (
             <>
                 <div className="upperBody">
@@ -98,7 +91,22 @@ export function Stats({ spotifyApi }) {
                                 onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
                                 rowsPerPageOptions={[5, 10, 20]}
                             /> */}
-                            <Bubble options={options} data={data} width={600} height={400} />
+                            <Bubble options={options} data={{
+                                datasets: [
+                                    {
+                                        labels: "tracks",
+                                        data: rows.map((row) => ({
+                                            x: Math.random() * 50 - 10,
+                                            y: Math.random() * 50 - 10,
+                                            r: row.count * 5,
+                                            track: row.name,
+                                            artist: row.artist,
+                                            img: row.img
+                                        })),
+                                        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+                                    },
+                                ],
+                            }} width={600} height={400} />
                         </div>
                     </div>
                     <TopGenres spotifyApi={spotifyApi} />
@@ -110,4 +118,6 @@ export function Stats({ spotifyApi }) {
 
             </>
         );
+    }
 }
+

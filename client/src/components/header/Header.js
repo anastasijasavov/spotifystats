@@ -12,6 +12,7 @@ import TrackSearchResult from "./TrackSearchResult";
 import "./header.scss";
 import { useState, useEffect } from "react";
 import Tooltip from '@mui/material/Tooltip';
+import FormControl, { useFormControl } from '@mui/material/FormControl';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -58,6 +59,39 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function Header({ spotifyApi }) {
     const [search, setSearch] = useState("");
     const [searchResults, setSearchResults] = useState([]);
+    const [focus, setFocus] = useState(false)
+
+    function handleCLick(e) {
+        if (e.target.classList.contains('search')) {
+            console.log('clicked on search');
+            setFocus(true);
+        } else {
+            setFocus(false);
+        }
+    }
+    useEffect(() => {
+        window.addEventListener('click', (e) => handleCLick(e));
+
+        return () => {
+            window.removeEventListener('click', (e) => handleCLick(e));
+            setFocus(false);
+        }
+    }, [])
+
+    function SearchResult() {
+        const { focused } = useFormControl() || {};
+        if (focused) setFocus(true);
+
+        if (focus) {
+            console.log("focus on");
+            return <div className="search">
+                {searchResults.slice(0, 5).map((track) => (
+                    <TrackSearchResult track={track} key={track.uri} clearSearch={(isClear) => { isClear ? setSearch("") : <></> }} />
+                ))}
+            </div>;
+        }
+
+    }
 
     useEffect(() => {
         if (!search) return setSearchResults([]);
@@ -90,40 +124,43 @@ export default function Header({ spotifyApi }) {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" sx={{ backgroundColor: "#332E43" }}>
-                <Toolbar>
-                    <div className='links'>
-                        <Link to="/" className="links">Home</Link>
-                        <Link to="/stats" className="links">Stats</Link>
-                    </div>
+            <FormControl sx={{ width: "100%" }} >
+                <AppBar position="static" sx={{ backgroundColor: "#332E43" }}>
+                    <Toolbar>
+                        <div className='links'>
+                            <Link to="/" className="links">Home</Link>
+                            <Link to="/stats" className="links">Stats</Link>
+                        </div>
 
-                    <Search style={{ marginLeft: "40vw", position: "absolute" }}>
-                        <SearchIconWrapper>
-                            <SearchIcon />
-                        </SearchIconWrapper>
-                        <StyledInputBase
-                            placeholder="Search…"
-                            inputProps={{ 'aria-label': 'search' }}
-                            onChange={(e) => setSearch(e.target.value)}
-                        />
-                    </Search>
-                    <Tooltip title="log out">
-                        <LogoutIcon className="logout" onClick={() => {
-                            window.localStorage.removeItem("accessToken");
-                            window.localStorage.removeItem("refreshToken");
-                            window.localStorage.removeItem("userID");
-                            window.location = "/";
-                        }} />
-                    </Tooltip>
+                        <Search style={{ marginLeft: "40vw", position: "absolute" }}>
+                            <SearchIconWrapper>
+                                <SearchIcon />
+                            </SearchIconWrapper>
+                            <StyledInputBase
+                                placeholder="Search…"
+                                inputProps={{ 'aria-label': 'search' }}
+                                onChange={(e) => setSearch(e.target.value)}
+                            />
+                        </Search>
+                        <Tooltip title="log out">
+                            <LogoutIcon className="logout" onClick={() => {
+                                window.localStorage.removeItem("accessToken");
+                                window.localStorage.removeItem("refreshToken");
+                                window.localStorage.removeItem("userID");
+                                window.location = "/";
+                            }} />
+                        </Tooltip>
 
-                </Toolbar>
+                    </Toolbar>
 
-            </AppBar>
-            <div className="search">
+                </AppBar>
+                {/* <div className="search">
                 {searchResults.slice(0, 5).map((track) => (
                     <TrackSearchResult track={track} key={track.uri} clearSearch={(isClear) => { isClear ? setSearch("") : <></> }} />
                 ))}
-            </div>
+            </div> */}
+                <SearchResult />
+            </FormControl>
         </Box >
     );
 }

@@ -26,7 +26,7 @@ export function Scrobbles() {
       getActions: ({ id }) => {
         return [
           <GridActionsCellItem
-            icon={<Tooltip title="delete from history"><DeleteOutlineIcon /></Tooltip>}
+            icon={<Tooltip title="delete from history"><DeleteOutlineIcon style={{ color: "e8565d" }} /></Tooltip>}
             label="Delete"
             onClick={() => {
               removeScrobble(id);

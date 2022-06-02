@@ -15,6 +15,7 @@ import { saveScrobble } from "./utils/http-requests";
 import NotificationCard from "./components/NotificationCard/NotificationCard";
 
 let code = new URLSearchParams(window.location.search).get("code");
+
 function App() {
   const spotifyApi = useMemo(() => new SpotifyWebApi({ clientId: "0cc65edbfc7649b087b605c605e9aade" }), []);
   const [isSaved, setIsSaved] = useState(false);

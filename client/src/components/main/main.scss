@@ -1,14 +1,14 @@
 .body {
-    margin: 5vh auto;
-    width: 80%;
+
     align-items: center;
 }
 
 .main-body {
+    margin: 5vh auto;
     flex-wrap: nowrap;
     display: flex;
-    margin: 5vh 0 0 0;
     /* flex-wrap: nowrap; */
     justify-content: center;
     flex-direction: row;
+    width: 80%;
 }
