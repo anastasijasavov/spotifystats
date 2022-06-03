@@ -59,7 +59,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function Header({ spotifyApi }) {
     const [search, setSearch] = useState("");
     const [searchResults, setSearchResults] = useState([]);
-    const [focus, setFocus] = useState(false)
+    const [focus, setFocus] = useState(false);
 
     function handleCLick(e) {
         if (e.target.classList.contains('search')) {
@@ -78,12 +78,12 @@ export default function Header({ spotifyApi }) {
         }
     }, [])
 
+
     function SearchResult() {
         const { focused } = useFormControl() || {};
         if (focused) setFocus(true);
 
         if (focus) {
-            console.log("focus on");
             return <div className="search">
                 {searchResults.slice(0, 5).map((track) => (
                     <TrackSearchResult track={track} key={track.uri} clearSearch={(isClear) => { isClear ? setSearch("") : <></> }} />
@@ -136,12 +136,14 @@ export default function Header({ spotifyApi }) {
                             <SearchIconWrapper>
                                 <SearchIcon />
                             </SearchIconWrapper>
+                            {/* <input value={search} placeholder="Search..." onChange={(e) => setSearch(e.target.value)} /> */}
                             <StyledInputBase
                                 placeholder="Search…"
-                                inputProps={{ 'aria-label': 'search' }}
+                                inputProps={{ 'value': search }}
                                 onChange={(e) => setSearch(e.target.value)}
                             />
-                            <img className='close-btn' src="/close_icon.svg" alt="" onClick={() => setSearch()}></img>
+
+                            <img className="close-btn" onClick={() => setSearch("")} src="/close_icon.svg" alt="" ></img>
                         </Search>
                         <Tooltip title="log out">
                             <LogoutIcon className="logout" onClick={() => {

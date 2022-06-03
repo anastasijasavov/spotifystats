@@ -35,7 +35,6 @@ const options = {
     },
     plugins: {
         tooltip: {
-
             callbacks: {
                 label: (context) => {
                     return `${context.raw.track} by ${context.raw.artist}`;
@@ -46,22 +45,49 @@ const options = {
 
     }
 };
-
-async function getScrobbles(userID) {
-    return await getTopScrobbles(userID);
-}
 export function Stats({ spotifyApi }) {
 
     const userID = getMe();
-    const [rows, setRows] = useState([])
-    const [data, setData] = useState({});
+    // const [rows, setRows] = useState([])
+    const [data, setData] = useState();
+
+    async function getScrobbles() {
+        // setData();
+        let arr = [];
+        const res = await getTopScrobbles(userID);
+
+        for (let i = 0; i < res.length; i++) {
+            const el = res[i];
+            arr.push({
+                x: Math.random() * 50,
+                y: Math.random() * 50,
+                r: el.count * 5,
+                count: el.count,
+                artist: el.artist,
+                img: el.img,
+                track: el.name
+            })
+            console.log(arr[i])
+        }
+
+        setData({
+            datasets: [{
+                label: "tracks",
+                data: arr,
+                backgroundColor: 'rgba(53, 162, 235, 0.5)',
+            }]
+        });
+
+        console.log("data", data);
+
+        return true;
+    }
     // const [pageSize, setPageSize] = useState(5)
     useEffect(() => {
-        getScrobbles(userID).then(res => {
-            setRows(res);
-        });
+        getScrobbles();
         return () => {
-            setRows([]);
+            // setRows([]);
+            // setData({});
         }
     }, [])
 
@@ -71,11 +97,7 @@ export function Stats({ spotifyApi }) {
     //     { field: "artist", headerName: "Artist", flex: 1 },
     //     { field: "count", headerName: "Frequency", flex: 1 }
     // ]
-
-    if (rows) {
-
-
-
+    if (data)
         return (
             <>
                 <div className="upperBody">
@@ -89,22 +111,7 @@ export function Stats({ spotifyApi }) {
                                 onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
                                 rowsPerPageOptions={[5, 10, 20]}
                             /> */}
-                            <Bubble options={options} data={{
-                                datasets: [
-                                    {
-                                        labels: "tracks",
-                                        data: rows.map((row) => ({
-                                            x: Math.random() * 50 - 10,
-                                            y: Math.random() * 50 - 10,
-                                            r: row.count * 5,
-                                            track: row.name,
-                                            artist: row.artist,
-                                            img: row.img
-                                        })),
-                                        backgroundColor: 'rgba(53, 162, 235, 0.5)',
-                                    },
-                                ],
-                            }} width={600} height={400} />
+                            <Bubble options={options} data={data} width={600} height={400} />
                         </div>
                     </div>
                     <TopGenres spotifyApi={spotifyApi} />
@@ -116,6 +123,6 @@ export function Stats({ spotifyApi }) {
 
             </>
         );
-    }
+
 }
 

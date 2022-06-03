@@ -12,6 +12,7 @@ const TopAlbums = ({ spotifyApi }) => {
     const getAlbums = async () => {
         //setTopAlbums(getTopAlbums(spotifyApi));
         setTopAlbums(await getTopAlbums(spotifyApi));
+        return true;
     }
 
 

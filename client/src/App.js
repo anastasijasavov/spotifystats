@@ -106,7 +106,7 @@ function App() {
             saveScrobble(scrobble, window.localStorage.getItem("userID"));
             setSaved(true);
             setTrack(prevTrack);
-
+            return <NotificationCard message="Song is saved!" open={true} />;
           }
 
         },

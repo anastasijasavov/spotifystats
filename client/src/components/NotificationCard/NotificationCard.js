@@ -8,7 +8,9 @@ import { useEffect } from "react";
 //     return <Slide {...props} direction="up" />;
 // }
 
-export default function NotificationCard({ message }) {
+export default function NotificationCard({ message, open }) {
+
+
     const [state, setState] = React.useState({
         open: false,
         vertical: 'top',
@@ -37,11 +39,12 @@ export default function NotificationCard({ message }) {
             open: false,
         });
     };
+    if (!message) return;
 
     return (
         <div>
             <Snackbar
-                open={state.open}
+                open={open}
                 onClose={handleClose}
                 TransitionComponent={Slide}
                 message={message}
