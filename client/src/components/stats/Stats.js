@@ -39,6 +39,9 @@ const options = {
                 label: (context) => {
                     return `${context.raw.track} by ${context.raw.artist}`;
                 },
+                count: (ctx) => {
+                    return `Number of listens: ${ctx.raw.count}`
+                }
 
             }
         }
@@ -79,7 +82,6 @@ export function Stats({ spotifyApi }) {
         });
 
         console.log("data", data);
-
         return true;
     }
     // const [pageSize, setPageSize] = useState(5)
@@ -87,7 +89,7 @@ export function Stats({ spotifyApi }) {
         getScrobbles();
         return () => {
             // setRows([]);
-            // setData({});
+            setData({});
         }
     }, [])
 
