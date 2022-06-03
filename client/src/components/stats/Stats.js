@@ -60,8 +60,6 @@ export function Stats({ spotifyApi }) {
         getScrobbles(userID).then(res => {
             setRows(res);
         });
-
-
         return () => {
             setRows([]);
         }

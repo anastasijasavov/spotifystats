@@ -50,7 +50,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
         [theme.breakpoints.up('sm')]: {
             width: '30ch',
             '&:focus': {
-                width: '40ch',
+                width: '35ch',
             },
         },
     },
@@ -141,6 +141,7 @@ export default function Header({ spotifyApi }) {
                                 inputProps={{ 'aria-label': 'search' }}
                                 onChange={(e) => setSearch(e.target.value)}
                             />
+                            <img className='close-btn' src="/close_icon.svg" alt="" onClick={() => setSearch()}></img>
                         </Search>
                         <Tooltip title="log out">
                             <LogoutIcon className="logout" onClick={() => {
@@ -150,15 +151,9 @@ export default function Header({ spotifyApi }) {
                                 window.location = "/";
                             }} />
                         </Tooltip>
-
                     </Toolbar>
-
                 </AppBar>
-                {/* <div className="search">
-                {searchResults.slice(0, 5).map((track) => (
-                    <TrackSearchResult track={track} key={track.uri} clearSearch={(isClear) => { isClear ? setSearch("") : <></> }} />
-                ))}
-            </div> */}
+
                 <SearchResult />
             </FormControl>
         </Box >

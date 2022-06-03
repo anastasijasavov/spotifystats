@@ -18,6 +18,16 @@
     position: absolute;
 }
 
+.close-btn {
+    width: 36px;
+    // padding: 0 10px 0 -10px;
+    padding-right: 10px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
 .search {
     position: absolute;
     text-align: center;

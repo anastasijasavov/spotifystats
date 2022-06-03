@@ -19,60 +19,60 @@ export default function CurrentTrack({ spotifyApi, sendData }) {
         console.log("the song is saved? ", sendData.isSaved);
     }, [sendData.track])
 
-
-
     //     console.log("data is empty, returning only scrobbles");
     //     return <><Scrobbles currentTrack={sendData.track} /></>;
     // }
-    if (sendData.track != null) {
-        return (
-            <>
-                <div className="curr-track-card">
-                    <Card sx={{ display: 'flex' }}>
-                        <CardMedia
-                            component="img"
+    if (sendData.track == null || typeof sendData.track.id === "undefined") return;
+    // console.log(sendData.track);
 
-                            image={sendData.track.album}
-                            alt="album cover"
-                        />
-                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                            <CardContent sx={{ flex: '1 0 auto' }}>
-                                <Typography variant="h6" color="text.secondary" component="div">
-                                    Currently playing:
-                                </Typography>
-                                <Typography component="div" variant="h5">
-                                    {sendData.track.name}
-                                </Typography>
-                                <Typography variant="subtitle1" color="text.secondary" component="div">
-                                    by {sendData.track.artist}
-                                </Typography>
-                            </CardContent>
-                            <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }} className="heart-btn">
+    return (
+        <>
+            <div className="curr-track-card">
+                <Card sx={{ display: 'flex' }}>
+                    <CardMedia
+                        component="img"
 
-                                {sendData.track.id !== undefined ? (!isSaved ? (
-                                    <Tooltip title="save to spotify">
-                                        <FavoriteBorderIcon onClick={() => {
-                                            sendData.track.saveToSpotify(spotifyApi);
-                                            setIsSaved(true);
-                                        }} />
-                                    </Tooltip>) : (
-                                    <Tooltip title="unsave from spotify">
-                                        <FavoriteIcon onClick={() => {
-                                            sendData.track.unsaveFromSpotify(spotifyApi);
-                                            setIsSaved(false);
-                                        }} />
-                                    </Tooltip>)
-                                ) : null}
+                        image={sendData.track.album}
+                        alt="album cover"
+                    />
+                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                        <CardContent sx={{ flex: '1 0 auto' }}>
+                            <Typography variant="h6" color="text.secondary" component="div">
+                                Currently playing:
+                            </Typography>
+                            <Typography component="div" variant="h5">
+                                {sendData.track.name}
+                            </Typography>
+                            <Typography variant="subtitle1" color="text.secondary" component="div">
+                                by {sendData.track.artist}
+                            </Typography>
+                        </CardContent>
+                        <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }} className="heart-btn">
 
-                            </Box>
+                            {sendData.track.id !== undefined ? (!isSaved ? (
+                                <Tooltip title="save to spotify">
+                                    <FavoriteBorderIcon onClick={() => {
+                                        sendData.track.saveToSpotify(spotifyApi);
+                                        setIsSaved(true);
+                                    }} />
+                                </Tooltip>) : (
+                                <Tooltip title="unsave from spotify">
+                                    <FavoriteIcon onClick={() => {
+                                        sendData.track.unsaveFromSpotify(spotifyApi);
+                                        setIsSaved(false);
+                                    }} />
+                                </Tooltip>)
+                            ) : null}
 
                         </Box>
 
-                    </Card>
-                </div>
+                    </Box>
 
-            </>
-        );
-    }
+                </Card>
+            </div>
+
+        </>
+    );
+
 
 }
