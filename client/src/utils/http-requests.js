@@ -37,8 +37,18 @@ export async function saveUser(id, name) {
 
 export async function saveScrobble(track, userID) {
   console.log(track.name, userID);
+  const scrobble = {
+    id: track.id,
+    name: track.name,
+    artist: track.artist,
+    duration: track.duration,
+    album: track.album,
+    scrobble_id: track.scrobble_id,
+    minutes: track.minutes,
+    seconds: track.seconds,
+  };
   return await axios
-    .post(`${url}/scrobbles`, { track: { ...track }, userID: userID, album: track.album_id })
+    .post(`${url}/scrobbles`, { track: scrobble, userID: userID, album: track.album_id })
     .then(() => {
       console.log("song saved");
     })

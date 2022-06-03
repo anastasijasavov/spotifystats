@@ -72,8 +72,9 @@ export function Stats({ spotifyApi }) {
             })
             console.log(arr[i])
         }
-
+        console.log(arr);
         setData({
+            labels: ["tracks"],
             datasets: [{
                 label: "tracks",
                 data: arr,
@@ -81,7 +82,6 @@ export function Stats({ spotifyApi }) {
             }]
         });
 
-        console.log("data", data);
         return true;
     }
     // const [pageSize, setPageSize] = useState(5)
@@ -99,7 +99,7 @@ export function Stats({ spotifyApi }) {
     //     { field: "artist", headerName: "Artist", flex: 1 },
     //     { field: "count", headerName: "Frequency", flex: 1 }
     // ]
-    if (data)
+    if (data !== "undefined" || data != null)
         return (
             <>
                 <div className="upperBody">
