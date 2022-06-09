@@ -17,7 +17,7 @@ const TopArtists = ({ spotifyApi }) => {
         return () => {
             setTopArtists([])
         }
-    }, [spotifyApi])
+    }, [])
 
     return (
         <Box sx={{ flexGrow: 1 }} className="top-artists">

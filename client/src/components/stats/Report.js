@@ -10,16 +10,19 @@ export default function Report() {
 
     useEffect(() => {
         analyzeSongs().then(res => {
+            // if(res !== "undefined"){
             setReport(res);
-            console.log(report);
+            console.log("report", report);
+            // }
         });
+
         // console.log(songsReport);
         return () => {
             setReport([]);
         }
     }, [])
 
-    if (report[0]) {
+    if (report[1]) {
         return (
             <Card sx={{ minWidth: 275, maxWidth: 500 }} className="card">
 

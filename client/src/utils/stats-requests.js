@@ -51,6 +51,8 @@ export async function analyzeSongs() {
     let trackIDs = "";
     let averageSongData = [];
     const tracks = await getTopScrobbles(userID);
+    if (!tracks) return;
+
     tracks.slice(0, topSongCount).forEach(track => {
         trackIDs += `${track.id},`;
     });

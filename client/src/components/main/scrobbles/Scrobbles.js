@@ -43,14 +43,13 @@ export function Scrobbles() {
   }
   useEffect(() => {
 
-    const scrobbles = getTracks();
-
     var today = new Date();
     today = today.getTime();
     let timeAgo = 0;
     let timeUnit = "min";
 
-    scrobbles.then((tracks) => {
+    getTracks().then((tracks) => {
+      console.log(tracks);
       setRows(
         tracks
           .map((track) => {
